@@ -1,5 +1,5 @@
 public class Train {
-    private final List<Carriage> carriages [...]
+    private final List<Carriage> carriages;
     private int percentReservedBarrier = 70;
 
     public void reserveSeats0(ReservationRequest request) {

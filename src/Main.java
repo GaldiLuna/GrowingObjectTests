@@ -1,15 +1,93 @@
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-public class Main {
-    public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+public class Main implements AuctionEventListener {
+    private MainWindow ui;
+    private static final int ARG_HOSTNAME = 0;
+    private static final int ARG_USERNAME = 1;
+    private static final int ARG_PASSWORD = 2;
+    private static final int ARG_ITEM_ID = 3;
+    public static final String AUCTION_RESOURCE = "Auction";
+    public static final String ITEM_ID_AS_LOGIN = "auction-%s";
+    public static final String AUCTION_ID_FORMAT =
+            ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+    @SuppressWarnings("unused") private Chat notToBeGCd;
+    public Main() throws Exception {
+        startUserInterface();
+    }
+    public static void main(String... args) throws Exception {
+        Main main = new Main();
+        main.joinAuction(
+                connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]),
+                args[ARG_ITEM_ID]);
+    }
+    private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException {
+        XMPPConnection connection = new XMPPConnection(hostname);
+        connection.connect();
+        connection.login(username, password, AUCTION_RESOURCE);
+        return connection;
+    }
+    private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+        disconnectWhenUICloses(connection);
+        Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), new AuctionMessageTranslator(this));
+        chat.sendMessage(JOIN_COMMAND_FORMAT);
+        notToBeGCd = chat;
+    }
+    public void auctionClosed() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ui.showStatus(MainWindow.STATUS_LOST);
+            }
+        });
+    }
+    private void disconnectWhenUICloses(final XMPPConnection connection) {
+        ui.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                connection.disconnect();
+            }
+        });
+    }
+    private static String auctionId(String itemId, XMPPConnection connection) {
+        return String.format(AUCTION_ID_FORMAT, itemId,
+                connection.getServiceName());
+    }
+    private void startUserInterface() throws Exception {
+        SwingUtilities.invokeAndWait(new Runnable() {
+            public void run() {
+                ui = new MainWindow();
+            }
+        });
+    }
+}
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+public class MessageListener() {
+    public void processMessage(Chat aChat, Message message) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ui.showStatus(MainWindow.STATUS_LOST);
+            }
+        });
+    }
+}
+
+public class MainWindow extends JFrame {
+    public static final String SNIPER_STATUS_NAME = "sniper status";
+    private final JLabel sniperStatus = createLabel(STATUS_JOINING);
+    public MainWindow() {
+        super("Auction Sniper");
+        setName(MAIN_WINDOW_NAME);
+        add(sniperStatus);
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+    }
+    private static JLabel createLabel(String initialText) {
+        JLabel result = new JLabel(initialText);
+        result.setName(SNIPER_STATUS_NAME);
+        result.setBorder(new LineBorder(Color.BLACK));
+        return result;
+    }
+    public void showStatus(String status) {
+        sniperStatus.setText(status);
     }
 }
