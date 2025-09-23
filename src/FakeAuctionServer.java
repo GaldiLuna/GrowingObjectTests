@@ -14,18 +14,13 @@ public class FakeAuctionServer {
     private final SingleMessageListener messageListener = new SingleMessageListener();
 
     public void reportPrice(int price, int increment, String bidder) throws XMPPException {
-        currentChat.sendMessage(
-                String.format("SOLVersion: 1.1; Event: PRICE; "
-                                + "CurrentPrice: %d; Increment: %d; Bidder: %s;",
-                        price, increment, bidder));
+        currentChat.sendMessage(String.format("SOLVersion: 1.1; Event: PRICE; " + "CurrentPrice: %d; Increment: %d; Bidder: %s;", price, increment, bidder));
     }
 
     public void startSellingItem() throws XMPPException {
         connection.connect();
-        connection.login(format(ITEM_ID_AS_LOGIN, itemId),
-                AUCTION_PASSWORD, AUCTION_RESOURCE);
-        connection.getChatManager().addChatListener(
-                new ChatManagerListener() {
+        connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE);
+        connection.getChatManager().addChatListener(new ChatManagerListener() {
                     public void chatCreated(Chat chat, boolean createdLocally) {
                         currentChat = chat;
                         chat.addMessageListener(messageListener);
@@ -43,8 +38,7 @@ public class FakeAuctionServer {
         receivesAMessageMatching(sniperId, equalTo(Main.JOIN_COMMAND_FORMAT));
     }
     public void hasReceivedBid(int bid, String sniperId) throws InterruptedException {
-        receivesAMessageMatching(sniperId,
-                equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
+        receivesAMessageMatching(sniperId, equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
     }
     private void receivesAMessageMatching(String sniperId, Matcher<? super String> messageMatcher) throws InterruptedException {
         messageListener.receivesAMessage(messageMatcher);
@@ -58,8 +52,7 @@ public class FakeAuctionServer {
     }
 }
 public class SingleMessageListener implements MessageListener {
-    private final ArrayBlockingQueue<Message> messages =
-            new ArrayBlockingQueue<Message>(1);
+    private final ArrayBlockingQueue<Message> messages = new ArrayBlockingQueue<Message>(1);
     public void processMessage(Chat chat, Message message) {
         messages.add(message);
     }
