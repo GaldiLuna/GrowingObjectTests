@@ -18,16 +18,15 @@ public class SnipersTableModelTest {
     }
     @Test
     public void setsSniperValuesInColumns() {
+        SniperSnapshot joining = SniperSnapshot.joining("item id");
+        SniperSnapshot bidding = joining.bidding(555, 666);
         context.checking(new Expectations() {{
-            one(listener).tableChanged(with(aRowChangedEvent()));
+            allowing(listener).tableChanged(with(anyInsertionEvent()));
+            one(listener).tableChanged(with(aChangeInRow(0)));
         }});
-
-        model.sniperStatusChanged(new SniperState("item id", 555, 666), MainWindow.STATUS_BIDDING);
-
-        assertColumnEquals(Column.ITEM_IDENTIFIER, "item id");
-        assertColumnEquals(Column.LAST_PRICE, 555);
-        assertColumnEquals(Column.LAST_BID, 666);
-        assertColumnEquals(Column.SNIPER_STATUS, MainWindow.STATUS_BIDDING);
+        model.addSniper(joining);
+        model.sniperStateChanged(bidding);
+        assertRowMatchesSnapshot(0, bidding);
     }
     private void assertColumnEquals(Column column, Object expected) {
         final int rowIndex = 0;
@@ -37,4 +36,36 @@ public class SnipersTableModelTest {
     private Matcher<TableModelEvent> aRowChangedEvent() {
         return samePropertyValuesAs(new TableModelEvent(model, 0));
     }
+
+    @Test
+    public void setsUpColumnHeadings() {
+        for (Column column: Column.values()) {
+            assertEquals(column.name, model.getColumnName(column.ordinal()));
+        }
+    }
+
+    @Test
+    public void notifiesListenersWhenAddingASniper() {
+        SniperSnapshot joining = SniperSnapshot.joining("item123");
+        context.checking(new Expectations() {{
+            one(listener).tableChanged(with(anInsertionAtRow(0)));
+        }});
+        assertEquals(0, model.getRowCount());
+        model.addSniper(joining);
+        assertEquals(1, model.getRowCount());
+        assertRowMatchesSnapshot(0, joining);
+    }
+
+    @Test
+    public void holdsSnipersInAdditionOrder() {
+        context.checking(new Expectations() {{
+            ignoring(listener);
+        }});
+        model.addSniper(SniperSnapshot.joining("item 0"));
+        model.addSniper(SniperSnapshot.joining("item 1"));
+        assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
+        assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
+    }
+    updatesCorrectRowForSniper() { [...]
+    throwsDefectIfNoExistingSniperForAnUpdate() { [...]
 }
