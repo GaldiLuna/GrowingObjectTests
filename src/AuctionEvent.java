@@ -20,8 +20,12 @@ public class AuctionEvent {
         return Integer.parseInt(get(fieldName));
     }
 
-    private String get(String fieldName) {
-        return fields.get(fieldName);
+    private String get(String name) throws MissingValueException {
+        String value = values.get(name);
+        if (null == value) {
+            throw new MissingValueException(name);
+        }
+        return value;
     }
 
     private void addField(String field) {

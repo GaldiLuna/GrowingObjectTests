@@ -3,6 +3,7 @@ public class ApplicationRunner {
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
+    private AuctionLogDriver logDriver = new AuctionLogDriver();
     public void startBiddingIn(final FakeAuctionServer... auction) {
         startSniper();
         for (FakeAuctionServer auction : auctions) {
@@ -40,5 +41,20 @@ public class ApplicationRunner {
         if (driver != null) {
             driver.dispose();
         }
+    }
+    public void reportsInvalidMessage(FakeAuctionServer auction, String message) throws IOException {
+        logDriver.hasEntry(containsString(message));
+    }
+    public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
+        startSniper();
+        openBiddingFor(auction, stopPrice);
+    }
+    private startSniper() {
+        logDriver.clearLog();
+        Thread thread = new Thread("Test Application") {
+            @Override
+            public void run() { // Start the application [...]
+            }
+        };
     }
 }

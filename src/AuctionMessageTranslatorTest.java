@@ -15,6 +15,12 @@ public class AuctionMessageTranslatorTest {
         translator.processMessage(UNUSED_CHAT, message);
     }
     @Test
+    public void notifiesAuctionFailedWhenBadMessageReceived() {
+        String badMessage = "a bad message";
+        expectFailureWithMessage(badMessage);
+        translator.processMessage(UNUSED_CHAT, message(badMessage));
+    }
+    @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceived() {
         context.checking(new Expectations() {{ exactly(1).of(listener).currentPrice(192, 7); }});
         Message message = new Message();
@@ -38,5 +44,25 @@ public class AuctionMessageTranslatorTest {
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");
         translator.processMessage(UNUSED_CHAT, message);
+    }
+    @Test
+    public void notifiesAuctionFailedWhenEventTypeMissing() {
+        context.checking(new Expectations() {{
+            exactly(1).of(listener).auctionFailed();
+        }});
+        Message message = new Message();
+        message.setBody("SOLVersion: 1.1; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");
+        translator.processMessage(UNUSED_CHAT, message);
+    }
+    private Message message(String body) {
+        Message message = new Message();
+        message.setBody(body);
+        return message;
+    }
+    private void expectFailureWithMessage(final String badMessage) {
+        context.checking(new Expectations() {{
+            oneOf(listener).auctionFailed();
+            oneOf(failureReporter).cannotTranslateMessage(with(SNIPER_ID), with(badMessage), with(any(Exception.class)));
+        }});
     }
 }

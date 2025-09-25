@@ -82,4 +82,38 @@ public class AuctionSniperTest {
             }
         };
     }
+
+    @Test
+    public void doesNotBidAndReportsLosingIfSubsequentPriceIsAboveStopPrice() {
+        allowingSniperBidding();
+        context.checking(new Expectations() {{
+            int bid = 123 + 45;
+            allowing(auction).bid(bid);
+            atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 2345, bid, LOSING));
+            when(sniperState.is("bidding"));
+        }});
+        sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+        sniper.currentPrice(2345, 25, PriceSource.FromOtherBidder);
+    }
+    private void allowingSniperBidding() {
+        context.checking(new Expectations() {{
+            allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
+            then(sniperState.is("bidding"));
+        }});
+    }
+
+    @Test
+    public void reportsFailedIfAuctionFailsWhenBidding() {
+        ignoringAuction();
+        allowingSniperBidding();
+        expectSniperToFailWhenItIs("bidding");
+        sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+        sniper.auctionFailed();
+    }
+    private void expectSniperToFailWhenItIs(final String state) {
+        context.checking(new Expectations() {{
+            atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 00, 0, SniperState.FAILED));
+            when(sniperState.is(state));
+        }});
+    }
 }

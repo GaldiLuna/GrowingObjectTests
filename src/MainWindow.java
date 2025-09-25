@@ -33,11 +33,25 @@ public class MainWindow extends JFrame {
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                userRequests.announce().joinAuction(itemIdField.getText());
+                userRequests.announce().joinAuction(new Item(itemId(), stopPrice()));
+            }
+            private String itemId() {
+                return itemIdField.getText();
+            }
+            private int stopPrice() {
+                return ((Number)stopPriceField.getValue()).intValue();
             }
         });
         controls.add(joinAuctionButton);
         return controls;
+    }
+
+    private JTable makeSnipersTable(SniperPortfolio portfolio) {
+        SnipersTableModel model = new SnipersTableModel();
+        portfolio.addPortfolioListener(model);
+        JTable snipersTable = new JTable(model);
+        snipersTable.setName(SNIPERS_TABLE_NAME);
+        return snipersTable;
     }
 
     private void fillContentPane(JTable snipersTable) {

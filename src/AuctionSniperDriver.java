@@ -1,7 +1,8 @@
 public class AuctionSniperDriver extends  JFrameDriver {
     @SuppressWarnings("unchecked")
-    public void startBiddingFor(String itemId) {
-        itemIdField().replaceAllText(itemId);
+    public void startBiddingFor(String itemId, int stopPrice) {
+        textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
+        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(stopPrice));
         bidButton().click();
     }
     private JTextFieldDriver itemIdField() {
