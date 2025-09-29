@@ -16,4 +16,29 @@ public class MainWindowTest {
         driver.startBiddingFor("an item-id", 789);
         driver.check(itemProbe);
     }
+    @Test
+    public void rejectsRequestsNotWithinTheSameDay() {
+        Receiver receiver = new Receiver(clock);
+        context.checking(new Expectations() {{
+            allowing(clock).now(); will(returnValue(NOW));
+            one(clock).dayHasChangedFrom(NOW); will(returnValue(false));
+        }});
+        receiver.acceptRequest(FIRST_REQUEST);
+        assertFalse("too late now", receiver.acceptRequest(SECOND_REQUEST));
+    }
+    @Test
+    public void rejectsRequestsOutsideAllowedPeriod() {
+        Receiver receiver = new Receiver(sameDayChecker);
+        context.checking(new Expectations() {{
+            allowing(sameDayChecker).hasExpired(); will(returnValue(false));
+        }});
+        assertFalse("too late now", receiver.acceptRequest(REQUEST));
+    }
+    //public boolean acceptRequest(Request request) {
+    //    if (sameDayChecker.hasExpired()) {
+    //        return false;
+    //    }
+    //    // process the request
+    //    return true;
+    //}
 }

@@ -81,4 +81,15 @@ public class MainWindow extends JFrame {
     public void showStatus(String status) {
         sniperStatus.setText(status);
     }
+
+    public boolean acceptRequest(Request request) {
+        final Date now = clock.now();
+        if (dateOfFirstRequest == null) {
+            dateOfFirstRequest = clock.now();
+        } else if (clock.dayHasChangedFrom(dateOfFirstRequest)) {
+            return false;
+        }
+        // process the request
+        return true;
+    }
 }
