@@ -7,7 +7,7 @@ public class DataBaseCleaner {
             Address.class
     };
     private final EntityManager entityManager;
-    public DatabaseCleaner(EntityManager entityManager) {
+    public void DatabaseCleaner(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
     public void clean() throws SQLException {

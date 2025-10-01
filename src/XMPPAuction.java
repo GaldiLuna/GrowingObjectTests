@@ -1,5 +1,5 @@
 public class XMPPAuction implements Auction {
-    private final Announcer<AuctionEventListener> auctionEventListeners = [...]
+    private final Announcer<AuctionEventListener> auctionEventListeners;
     private final Chat chat;
 
     public XMPPAuction(XMPPConnection connection, String auctionJID) {

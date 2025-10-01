@@ -1,9 +1,9 @@
 public class CdPlayer {
-    public void scheduleToStartAt(Time startTime) { [...] }
-    public void stop() { [...] }
-    public void gotoTrack(int trackNumber) { [...] }
-    public void spinUpDisk() { [...] }
-    public void eject() { [...] }
+    public void scheduleToStartAt(Time startTime) {  }
+    public void stop() {  }
+    public void gotoTrack(int trackNumber) {  }
+    public void spinUpDisk() {  }
+    public void eject() {  }
     public void adjudicateIfReady(ThirdParty thirdParty, Issue issue) {
         if (firstParty.isReady()) {
             thirdParty.startAdjudication(organization, firstParty, issue);

@@ -12,8 +12,7 @@ public class Poller {
             probe.sample();
         }
     }
-    private String describeFailureOf(Probe probe) { [...]
-    }
+    private String describeFailureOf(Probe probe) {  }
 
     public static void assertEventually(Probe probe) throws InterruptedException {
         new Poller(1000L, 100L).check(probe);

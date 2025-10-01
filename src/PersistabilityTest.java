@@ -50,8 +50,8 @@ public class PersistabilityTest {
     private void assertReloadsWithSameStateAs(final Object original) throws Exception {
         transactor.perform(new UnitOfWork() {
             public void work() throws Exception {
-                assertThat(entityManager.find(original.getClass(), idOf(original));
-                hasSamePersistenFieldsAs(original));
+                assertThat(entityManager.find(original.getClass(), idOf(original)));
+                hasSamePersistenFieldsAs(original);
             }
         });
     }

@@ -1,4 +1,4 @@
-public class SniperSnapshot { [...]
+public class SniperSnapshot {
 
     public SniperSnapshot bidding(int newLastPrice, int newLastBid) {
         return new SniperSnapshot(itemId, newLastPrice, newLastBid, SniperState.BIDDING);

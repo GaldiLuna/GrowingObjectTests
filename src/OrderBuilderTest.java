@@ -7,7 +7,6 @@ public class OrderBuilderTest {
                 new Address("221b Baker Street", "London", new PostCode("NW1", "3RX"))));
         order.addLine(new OrderLine("Deerstalker Hat", 1));
         order.addLine(new OrderLine("Tweed Cape", 1));
-    [...]
     }
     @Test
     public void reportsTotalSalesOfOrderedProducts() {

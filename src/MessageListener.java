@@ -1,4 +1,4 @@
-public class MessageListener() {
+public class MessageListener {
     public void processMessage(Chat aChat, Message message) {
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {

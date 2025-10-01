@@ -12,8 +12,8 @@ public class RacingCar {
     {
         this.track = track;
     }
-    public void setSuspension(Suspension suspension) { [...] }
-    public void setTyres(Tyres tyres) { [...] }
-    public void setEngine(Engine engine) { [...] }
-    public void setListener(CarListener listener) { [...] }
+    public void setSuspension(Suspension suspension) {  }
+    public void setTyres(Tyres tyres) {  }
+    public void setEngine(Engine engine) {  }
+    public void setListener(CarListener listener) {  }
 }

@@ -31,7 +31,7 @@ public class SnipersTableModelTest {
     private void assertColumnEquals(Column column, Object expected) {
         final int rowIndex = 0;
         final int columnIndex = column.ordinal();
-        assertEquals(expected, model.getValueAt(rowIndex, columnIndex);
+        assertEquals(expected, model.getValueAt(rowIndex, columnIndex));
     }
     private Matcher<TableModelEvent> aRowChangedEvent() {
         return samePropertyValuesAs(new TableModelEvent(model, 0));
@@ -66,6 +66,6 @@ public class SnipersTableModelTest {
         assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
         assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
     }
-    updatesCorrectRowForSniper() { [...]
-    throwsDefectIfNoExistingSniperForAnUpdate() { [...]
+    public void updatesCorrectRowForSniper() {  }
+    public void throwsDefectIfNoExistingSniperForAnUpdate() {  }
 }

@@ -23,7 +23,7 @@ public class CatalogTest {
 
     @Test(expected=IllegalArgumentException.class)
     public void cannotAddTwoEntriesWithTheSameName() {
-        catalog.add(new Entry("fish", "chips");
-        catalog.add(new Entry("fish", "peas");
+        catalog.add(new Entry("fish", "chips"));
+        catalog.add(new Entry("fish", "peas"));
     }
 }

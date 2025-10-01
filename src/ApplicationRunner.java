@@ -49,7 +49,7 @@ public class ApplicationRunner {
         startSniper();
         openBiddingFor(auction, stopPrice);
     }
-    private startSniper() {
+    private void startSniper() {
         logDriver.clearLog();
         Thread thread = new Thread("Test Application") {
             @Override

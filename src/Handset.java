@@ -1,7 +1,7 @@
 public class Handset {
     public Handset(Network network, Camera camera, Display display,
                    DataNetwork dataNetwork, AddressBook addressBook,
-                   Storage storage, Tuner tuner, …)
+                   Storage storage, Tuner tuner)
     {
         // set the fields here
     }

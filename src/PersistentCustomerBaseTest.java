@@ -34,6 +34,7 @@ public class PersistentCustomerBaseTest {
     {
         transactor.perform(new UnitOfWork() {
             public void work() throws Exception {
+                customers.addCustomer(aNewCustomer());
                 assertThat(customerBase.customersWithExpiredCreditCardsAsOf(date), matcher);
             }
         });

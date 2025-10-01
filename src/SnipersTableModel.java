@@ -5,7 +5,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
     private final static SniperState STARTING_UP = new SniperState("", 0, 0);
     private String statusText = MainWindow.STATUS_JOINING;
     private SniperState sniperState = STARTING_UP;
-    private final ArrayList<AuctionSniper> notToBeGCd = [...]
+    private final ArrayList<AuctionSniper> notToBeGCd;
 
     public int getColumnCount() {
         return Column.values().length;

@@ -2,7 +2,7 @@ import org.junit.Test;
 
 public class SniperLauncherTest {
     private final States auctionState = context.states("auction state").startsAs("not joined");
-    [...]
+
     @Test
     public void addsNewSniperToCollectorAndThenJoinsAuction() {
         final String itemId = "item 123";

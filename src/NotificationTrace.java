@@ -1,21 +1,19 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
+import org.hamcrest.Matcher;
 
 public class NotificationTrace<T> {
     private final Object traceLock = new Object();
     private final List<T> trace = new ArrayList<>();
     private long timeoutMs;
-    // constructors and accessors to configure the timeout [...]
+    // constructors and accessors to configure the timeout
     public void append(T message) {
         synchronized (traceLock) {
             trace.add(message);
             traceLock.notifyAll();
         }
     }
-    public void containsNotification(Matcher<? super T> criteria)
-            throws InterruptedException
-    {
+    public void containsNotification(Matcher<? super T> criteria) throws InterruptedException {
         Timeout timeout = new Timeout(timeoutMs);
         synchronized (traceLock) {
             NotificationStream<T> stream = new NotificationStream<T>(trace, criteria);
@@ -30,6 +28,5 @@ public class NotificationTrace<T> {
     private String failureDescriptionFrom(Matcher<? super T> matcher) {
         // Construct a description of why there was no match,
         // including the matcher and all the received messages.
-        [...]
     }
 }

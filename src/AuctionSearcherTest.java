@@ -4,7 +4,7 @@ public class AuctionSearcherTest {
     @Test
     public void announcesMatchForOneAuction() {
         final AuctionSearcher auctionSearch = new AuctionSearcher(searchListener,
-                new AuctionSearcher(searchListener, asList(STUB_AUCTION1, STUB_AUCTION2));
+                new AuctionSearcher(searchListener, asList(STUB_AUCTION1, STUB_AUCTION2)));
         context.checking(new Expectations() {{
             Sequence events = context.sequence("events");
             oneOf(searchListener).searchMatched(STUB_AUCTION1); inSequence(events);
@@ -16,7 +16,7 @@ public class AuctionSearcherTest {
     @Test
     public void announcesMatchForTwoAuctions() {
         final AuctionSearcher auctionSearch = new AuctionSearcher(searchListener,
-                new AuctionSearcher(searchListener, asList(STUB_AUCTION1, STUB_AUCTION2));
+                new AuctionSearcher(searchListener, asList(STUB_AUCTION1, STUB_AUCTION2)));
         context.checking(new Expectations() {{
             States searching = context.states("searching");
             oneOf(searchListener).searchMatched(STUB_AUCTION1);

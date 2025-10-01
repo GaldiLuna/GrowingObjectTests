@@ -34,8 +34,8 @@ public class OrderBuilder {
     // Order order = new OrderBuilder().fromCustomer(new CustomerBuilder().withAddress(anAddress().withNoPostcode()))).build();
     // Address aLongerAddress = anAddress().withStreet("221b Baker Street").withCity("London").with(postCode("NW1", "3RX")).build();
 
-    void submitOrderFor(String ... products) { [...] }
-    void submitOrderFor(String product, int count, String otherProduct, int otherCount) { [...] }
-    void submitOrderFor(String product, double discount) { [...] }
-    void submitOrderFor(String product, String giftVoucherCode) { [...] }
+    void submitOrderFor(String ... products) {  }
+    void submitOrderFor(String product, int count, String otherProduct, int otherCount) {  }
+    void submitOrderFor(String product, double discount) {  }
+    void submitOrderFor(String product, String giftVoucherCode) {  }
 }
