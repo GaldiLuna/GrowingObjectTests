@@ -15,9 +15,6 @@ interface MutableTime {
     void set(Object time);
     Object get();
 }
-interface CdPlayer {
-    void scheduleToStartAt(Object startTime);
-}
 class MusicCentre {
     public MusicCentre(CdPlayer player) {}
     public void startMediaAt(Object time) {}

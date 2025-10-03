@@ -1,7 +1,7 @@
 import java.util.List;
 import java.util.regex.Matcher;
 
-private static class NotificationStream<N> {
+public class NotificationStream<N> {
     private final List<N> notifications;
     private final Matcher<? super N> criteria;
     private int next = 0;

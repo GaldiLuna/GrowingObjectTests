@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.AbstractTableModel;
 
 public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
     private final static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
@@ -6,6 +8,8 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
     private String statusText = MainWindow.STATUS_JOINING;
     private SniperState sniperState = STARTING_UP;
     private final ArrayList<AuctionSniper> notToBeGCd;
+    private List<SniperSnapshot> snapshots; // Necessário para compilar métodos como addSniperSnapshot
+    private SniperSnapshot snapshot; // Necessário para compilar getValueAt
 
     public int getColumnCount() {
         return Column.values().length;
@@ -22,6 +26,12 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     public Object getValueAt(int rowIndex, int columnIndex) {
         return Column.at(columnIndex).valueIn(snapshot);
+    }
+
+    public SnipersTableModel() {
+        this.snapshots = new ArrayList<>();
+        this.notToBeGCd = new ArrayList<>();
+        this.snapshot = STARTING_UP; // Deve ser inicializado
     }
 
     public void setStatusText(String newStatusText) {

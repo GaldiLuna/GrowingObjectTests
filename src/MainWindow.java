@@ -1,3 +1,19 @@
+import javax.swing.JFrame; // <--- CORREÇÃO PRINCIPAL: Importa JFrame
+import javax.swing.JLabel; // JLabel usado em createLabel
+import javax.swing.JPanel; // JPanel usado em makeControls
+import javax.swing.JTable; // JTable usado em makeSnipersTable
+import javax.swing.JScrollPane; // JScrollPane usado em fillContentPane
+import javax.swing.JTextField; // JTextField usado em makeControls
+import javax.swing.JButton; // JButton usado em makeControls
+import javax.swing.border.LineBorder; // LineBorder usado em createLabel
+import java.awt.Color; // Color usado em createLabel
+import java.awt.Container; // Container usado em fillContentPane
+import java.awt.BorderLayout; // BorderLayout usado em fillContentPane
+import java.awt.FlowLayout; // FlowLayout usado em makeControls
+import java.awt.event.ActionListener; // ActionListener usado em makeControls
+import java.awt.event.ActionEvent; // ActionEvent usado em makeControls
+// Importações de modelos e classes de domínio (SnipersTableModel, UserRequestListener, etc.)
+//
 public class MainWindow extends JFrame {
     public static final String SNIPER_STATUS_NAME = "sniper status";
     private final SnipersTableModel snipers = new SnipersTableModel();
