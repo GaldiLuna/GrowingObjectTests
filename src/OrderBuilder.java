@@ -1,6 +1,10 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.math.BigDecimal;
+
 public class OrderBuilder {
     private Customer customer = new CustomerBuilder().build();
-    private List<OrderLine> lines = new ArrayList<OrderLine>();
+    private List<OrderLine> lines = new ArrayList<>();
     private BigDecimal discountRate = BigDecimal.ZERO;
     public static OrderBuilder anOrder() {
         return new OrderBuilder();
@@ -21,6 +25,7 @@ public class OrderBuilder {
         Order order = new Order(customer);
         for (OrderLine line : lines) order.addLine(line);
         order.setDiscountRate(discountRate);
+        return order;
     }
 
     // new OrderBuilder().fromCustomer(new CustomerBuilder().withAddress(new AddressBuilder().withNoPostcode().build()).build()).build();
@@ -38,4 +43,8 @@ public class OrderBuilder {
     void submitOrderFor(String product, int count, String otherProduct, int otherCount) {  }
     void submitOrderFor(String product, double discount) {  }
     void submitOrderFor(String product, String giftVoucherCode) {  }
+
+    public OrderBuilder withLine(String item, int quantity) { return this; }
+    public OrderBuilder withDiscount(double discount) { return this; }
+    public OrderBuilder fromCustomer(CustomerBuilder customerBuilder) { return this; }
 }

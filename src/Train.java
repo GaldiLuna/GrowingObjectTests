@@ -1,6 +1,12 @@
+import java.util.List;
+
 public class Train {
     private final List<Carriage> carriages;
     private int percentReservedBarrier = 70;
+
+    public Train(List<Carriage> carriages) {
+        this.carriages = carriages;
+    }
 
     public void reserveSeats0(ReservationRequest request) {
         for (Carriage carriage : carriages) {

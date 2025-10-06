@@ -1,0 +1,2 @@
+class TemplateFormatException extends Exception {
+}

@@ -1,3 +1,11 @@
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.LogManager;
+import org.hamcrest.Matcher;
+import static org.hamcrest.MatcherAssert.assertThat;
+
+import org.apache.commons.io.FileUtils;
+
 public class AuctionLogDriver {
     public static final String LOG_FILE_NAME = "auction-sniper.log";
     private final File logFile = new File(LOG_FILE_NAME);

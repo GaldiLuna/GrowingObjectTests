@@ -11,28 +11,6 @@ import java.util.HashMap;
 
 // --- Estruturas Auxiliares (Definidas FORA da Classe de Teste) ---
 
-interface MutableTime {
-    void set(Object time);
-    Object get();
-}
-class MusicCentre {
-    public MusicCentre(CdPlayer player) {}
-    public void startMediaAt(Object time) {}
-}
-interface Time {}
-class Show {
-    public void add(Video v) {}
-    public Object runningTime() { return 63; }
-}
-interface Video {
-    Object time();
-}
-class StringTemplate {
-    public StringTemplate(String s) {}
-    public String expand(HashMap<String, Object> m) throws Exception { return "AB"; }
-}
-class TemplateFormatException extends Exception {}
-
 
 @RunWith(JMock.class)
 // ABRE o corpo da classe de teste

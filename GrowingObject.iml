@@ -10,5 +10,11 @@
     <orderEntry type="library" exported="" name="junit" level="project" />
     <orderEntry type="library" exported="" name="hamcrest" level="project" />
     <orderEntry type="library" exported="" name="mockito.core" level="project" />
+    <orderEntry type="library" exported="" name="jmock.junit4" level="project" />
+    <orderEntry type="library" exported="" name="igniterealtime.smack.sasl.javax" level="project" />
+    <orderEntry type="library" exported="" name="igniterealtime.smack.tcp" level="project" />
+    <orderEntry type="library" exported="" name="distelli.persistence.api" level="project" />
+    <orderEntry type="library" exported="" name="guicedee.services.commons.io" level="project" />
+    <orderEntry type="library" exported="" name="github.datastax.oss.commons.io" level="project" />
   </component>
 </module>

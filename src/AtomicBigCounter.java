@@ -1,3 +1,5 @@
+import java.math.BigInteger;
+
 public class AtomicBigCounter {
     private BigInteger count = BigInteger.ZERO;
     public BigInteger count() { return count; }

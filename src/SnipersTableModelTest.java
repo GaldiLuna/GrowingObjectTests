@@ -2,6 +2,28 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+
+import org.hamcrest.Matcher;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.anything;
+
+import static org.junit.Assert.assertEquals;
+
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
+
+// Importações auxiliares do Hamcrest (Assume a existência de uma classe utilitária)
+// Nota: samePropertyValuesAs não é um matcher padrão do Hamcrest,
+// é geralmente fornecido por uma biblioteca ou utilitário do projeto (como o jMock Extensions).
+// Vamos importá-lo como se fosse um metodo estático de Hamcrest:
+import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
+// Ou de um utilitário do seu projeto para matchers personalizados.
+
 @RunWith(JMock.class)
 public class SnipersTableModelTest {
     private final Mockery context = new Mockery();
@@ -22,7 +44,7 @@ public class SnipersTableModelTest {
         SniperSnapshot bidding = joining.bidding(555, 666);
         context.checking(new Expectations() {{
             allowing(listener).tableChanged(with(anyInsertionEvent()));
-            one(listener).tableChanged(with(aChangeInRow(0)));
+            oneOf(listener).tableChanged(with(aChangeInRow(0)));
         }});
         model.addSniper(joining);
         model.sniperStateChanged(bidding);
@@ -48,7 +70,7 @@ public class SnipersTableModelTest {
     public void notifiesListenersWhenAddingASniper() {
         SniperSnapshot joining = SniperSnapshot.joining("item123");
         context.checking(new Expectations() {{
-            one(listener).tableChanged(with(anInsertionAtRow(0)));
+            oneOf(listener).tableChanged(with(anInsertionAtRow(0)));
         }});
         assertEquals(0, model.getRowCount());
         model.addSniper(joining);

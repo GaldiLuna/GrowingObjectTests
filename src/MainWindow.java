@@ -1,19 +1,24 @@
-import javax.swing.JFrame; // <--- CORREÇÃO PRINCIPAL: Importa JFrame
-import javax.swing.JLabel; // JLabel usado em createLabel
-import javax.swing.JPanel; // JPanel usado em makeControls
-import javax.swing.JTable; // JTable usado em makeSnipersTable
-import javax.swing.JScrollPane; // JScrollPane usado em fillContentPane
-import javax.swing.JTextField; // JTextField usado em makeControls
-import javax.swing.JButton; // JButton usado em makeControls
-import javax.swing.border.LineBorder; // LineBorder usado em createLabel
-import java.awt.Color; // Color usado em createLabel
-import java.awt.Container; // Container usado em fillContentPane
-import java.awt.BorderLayout; // BorderLayout usado em fillContentPane
-import java.awt.FlowLayout; // FlowLayout usado em makeControls
-import java.awt.event.ActionListener; // ActionListener usado em makeControls
-import java.awt.event.ActionEvent; // ActionEvent usado em makeControls
-// Importações de modelos e classes de domínio (SnipersTableModel, UserRequestListener, etc.)
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.border.LineBorder;
+import javax.swing.table.TableModel;
+
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+// Importações de classes de domínio (necessárias para o restante do código compilar)
+
+import java.util.Date;
 //
+
 public class MainWindow extends JFrame {
     public static final String SNIPER_STATUS_NAME = "sniper status";
     private final SnipersTableModel snipers = new SnipersTableModel();

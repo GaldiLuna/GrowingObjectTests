@@ -1,7 +1,18 @@
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
+
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityManager;
+import javax.persistence.Persistence;
 
 import java.util.HashSet;
+import java.util.Set;
+import java.util.Date;
 
 public class ExamplePersistenceTest {
     final EntityManagerFactory factory = Persistence.createEntityManagerFactory("example");

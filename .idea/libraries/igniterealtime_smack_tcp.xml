@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="igniterealtime.smack.tcp" type="repository">
+    <properties maven-id="org.igniterealtime.smack:smack-tcp:4.0.7" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/igniterealtime/smack/smack-tcp/4.0.7/smack-tcp-4.0.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/igniterealtime/smack/smack-core/4.0.7/smack-core-4.0.7.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/xpp3/xpp3/1.1.4c/xpp3-1.1.4c.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

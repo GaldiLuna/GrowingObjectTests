@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="distelli.persistence.api" type="repository">
+    <properties maven-id="com.distelli.persistence:persistence-api:3.8.16" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/distelli/persistence/persistence-api/3.8.16/persistence-api-3.8.16.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/javax/persistence/persistence-api/1.0/persistence-api-1.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/distelli/persistence/cred-api/3.8.16/cred-api-3.8.16.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/com/distelli/persistence/crypto-api/3.8.16/crypto-api-3.8.16.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

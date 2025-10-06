@@ -1,3 +1,7 @@
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.PersistenceException;
+
 public class JPATransactor {
     private final EntityManager entityManager;
     public JPATransactor(EntityManager entityManager) {
@@ -11,6 +15,7 @@ public class JPATransactor {
             transaction.commit();
         }
         catch (PersistenceException e) {
+            transaction.rollback();
             throw e;
         }
         catch (Exception e) {

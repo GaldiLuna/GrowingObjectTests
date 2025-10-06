@@ -5,12 +5,26 @@ import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.Arrays;
+
+import org.jmock.Mockery;
+import org.jmock.Expectations;
+import org.jmock.States;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+import org.jmock.lib.concurrent.Synchroniser;
+
+import static java.util.Arrays.asList;
+
 
 @RunWith(JMock.class)
 public class AuctionSearchStressTests {
     private static final int NUMBER_OF_AUCTION_HOUSES = 4;
     private static final int NUMBER_OF_SEARCHES = 8;
-    private static final Set<String> KEYWORDS = setOf("sheep", "cheese");
+    private static final Set<String> KEYWORDS = AuctionSearchTestHelpers.setOf("sheep", "cheese");
     final Synchroniser synchroniser = new Synchroniser();
     final Mockery context = new JUnit4Mockery() {{
         setThreadingPolicy(synchroniser);
@@ -38,7 +52,7 @@ public class AuctionSearchStressTests {
     @Test(timeout=500)
     public void onlyOneAuctionSearchFinishedNotificationPerSearch() throws Exception {
         context.checking(new Expectations() {{
-            ignoring (consumer).auctionSearchFound(with(anyResults()));
+            ignoring (consumer).auctionSearchFound(with(AuctionSearchTestHelpers.anyResults()));
         }});
         for (int i = 0; i < NUMBER_OF_SEARCHES; i++) {
             completeASearch();

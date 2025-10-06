@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="igniterealtime.smack.sasl.javax" type="repository">
+    <properties maven-id="org.igniterealtime.smack:smack-sasl-javax:4.4.8" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/igniterealtime/smack/smack-sasl-javax/4.4.8/smack-sasl-javax-4.4.8.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

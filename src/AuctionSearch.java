@@ -1,18 +1,20 @@
 import java.util.List;
 import java.util.Set;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class AuctionSearch {
     private final Executor executor;
     private final List<AuctionHouse> auctionHouses;
     private final AuctionSearchConsumer consumer;
-    private int runningSearchCount = 0;
     private final AtomicInteger runningSearchCount = new AtomicInteger();
     public AuctionSearch(Executor executor,
-                         List<AuctionHouse> auctionHouses,
+                         List<AuctionHouse> houses,
                          AuctionSearchConsumer consumer)
     {
         this.executor = executor;
-        this.auctionHouses = auctionHouses;
+        this.auctionHouses = houses;
         this.consumer = consumer;
     }
     public void search(Set<String> keywords) {
