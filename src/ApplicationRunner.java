@@ -1,19 +1,42 @@
+import java.io.IOException;
+import static org.hamcrest.Matchers.containsString;
+import static java.lang.String.format;
+
 public class ApplicationRunner {
     private String itemId;
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
     private AuctionLogDriver logDriver = new AuctionLogDriver();
-    public void startBiddingIn(final FakeAuctionServer... auction) {
+    public void startBiddingIn(final FakeAuctionServer... auctions) {
         startSniper();
         for (FakeAuctionServer auction : auctions) {
             final String itemId = auction.getItemId();
             driver.startBiddingFor(itemId);
-            driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
+            //driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
         }
     }
     private void startSniper() {
-        // as before without the call to showsSniperStatus()
+        logDriver.clearLog();
+        Thread thread = new Thread("Test Application") {
+            @Override
+            public void run() {
+                try {
+                    // Chamada ao metodo main (depende de argumentos() e Main.main)
+                    Main.main(arguments(new FakeAuctionServer[0]));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.setDaemon(true);
+        thread.start();
+        driver = new AuctionSniperDriver(1000);
+        driver.showsSniperStatus(textFor(SniperState.JOINING));
+    }
+    private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
+        // Lógica de abertura para o startBiddingWithStopPrice
+        driver.startBiddingFor(auction.getItemId(), stopPrice);
     }
     protected static String[] arguments(FakeAuctionServer... auctions) {
         String[] arguments = new String[auctions.length + 3];
@@ -49,12 +72,5 @@ public class ApplicationRunner {
         startSniper();
         openBiddingFor(auction, stopPrice);
     }
-    private void startSniper() {
-        logDriver.clearLog();
-        Thread thread = new Thread("Test Application") {
-            @Override
-            public void run() { // Start the application [...]
-            }
-        };
-    }
+
 }

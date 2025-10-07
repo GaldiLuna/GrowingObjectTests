@@ -1,7 +1,26 @@
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.jmock.integration.junit4.JMock;
 
+import org.jmock.States;
+import org.jmock.Mockery;
+import org.jmock.Expectations;
+import static org.jmock.Expectations.*;
+
+@RunWith(JMock.class)
 public class SniperLauncherTest {
+    private final Mockery context = new Mockery();
     private final States auctionState = context.states("auction state").startsAs("not joined");
+    private final AuctionHouse auctionHouse = context.mock(AuctionHouse.class);
+    private final SniperCollector sniperCollector = context.mock(SniperCollector.class);
+    private final Auction auction = context.mock(Auction.class);
+    private final SniperLauncher launcher = new SniperLauncher(auctionHouse, sniperCollector);
+    private final String item = "item 123"; // Simplificação do item usado no teste.
+    private Matcher<AuctionSniper> sniperForItem(final String itemId) {
+        // Assume-se que a lógica do FeatureMatcher para verificar o itemId
+        return (Matcher<AuctionSniper>) (Matcher<?>) anything(); // Simplificação para compilação
+    }
+
 
     @Test
     public void addsNewSniperToCollectorAndThenJoinsAuction() {

@@ -1,3 +1,9 @@
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+
+import java.util.List;
+import java.util.Date;
+
 public class PersistentCustomerBase implements CustomerBase {
     private final EntityManager entityManager;
     public PersistentCustomerBase(EntityManager entityManager) {

@@ -7,7 +7,6 @@ public class RacingCar {
     private Wing backWing = WingTypes.mediumDownforce();
     private double fuelLoad = 0.5;
     private CarListener listener = CarListener.NONE;
-    private DrivingStrategy driver;
     public RacingCar(Track track)
     {
         this.track = track;

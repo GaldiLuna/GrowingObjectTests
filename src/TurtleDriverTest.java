@@ -15,7 +15,7 @@ public class TurtleDriverTest {
     @Test
     public void goesAMinimumDistance() {
         final Turtle turtle2 = context.mock(Turtle.class, "turtle2");
-        final TurtleDriver driver = new TurtleDriver(turtle1, turtle2); // set up
+        final TurtleDriver driver = new TurtleDriver(turtle, turtle2); // set up
 
         context.checking(new Expectations() {{ // expectations
             ignoring (turtle2);

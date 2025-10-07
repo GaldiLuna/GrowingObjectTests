@@ -5,10 +5,6 @@ import javax.swing.SwingUtilities;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import auctionsniper.ui.MainWindow;
-import auctionsniper.ui.SnipersTableModel;
-import auctionsniper.AuctionMessageTranslator;
-import auctionsniper.XMPPAuction;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -25,7 +21,7 @@ public class Main {
     public static final String ITEM_ID_AS_LOGIN = "auction-%s";
     public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
     @SuppressWarnings("unused")
-    private Chat notToBeGCd;
+    private final ArrayList<Chat> notToBeGCd = new ArrayList<>();
 
     public Main() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {

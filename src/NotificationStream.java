@@ -1,5 +1,6 @@
+import org.hamcrest.Matcher;
 import java.util.List;
-import java.util.regex.Matcher;
+//import java.util.regex.Matcher;
 
 public class NotificationStream<N> {
     private final List<N> notifications;

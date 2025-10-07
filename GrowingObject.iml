@@ -16,5 +16,6 @@
     <orderEntry type="library" exported="" name="distelli.persistence.api" level="project" />
     <orderEntry type="library" exported="" name="guicedee.services.commons.io" level="project" />
     <orderEntry type="library" exported="" name="github.datastax.oss.commons.io" level="project" />
+    <orderEntry type="library" exported="" name="googlecode.windowlicker.swing" level="project" />
   </component>
 </module>

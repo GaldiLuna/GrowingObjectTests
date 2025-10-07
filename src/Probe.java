@@ -1,3 +1,5 @@
+import org.hamcrest.Description;
+
 public interface Probe {
     boolean isSatisfied();
     void sample();

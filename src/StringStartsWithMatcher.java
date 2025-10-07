@@ -1,3 +1,7 @@
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+
 public class StringStartsWithMatcher extends TypeSafeMatcher<String> {
     private final String expectedPrefix;
 

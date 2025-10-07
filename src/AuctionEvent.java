@@ -21,7 +21,7 @@ public class AuctionEvent {
     }
 
     private String get(String name) throws MissingValueException {
-        String value = values.get(name);
+        String value = fields.get(name);
         if (null == value) {
             throw new MissingValueException(name);
         }
@@ -46,7 +46,7 @@ public class AuctionEvent {
     }
 
     public PriceSource isFrom(String sniperId) {
-        return sniperId.equals(bidder()) ? FromSniper : FromOtherBidder;
+        return sniperId.equals(bidder()) ? PriceSource.FromSniper : PriceSource.FromOtherBidder;
     }
 
     private String bidder() {
