@@ -1,18 +1,45 @@
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.Assert;
+
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.States;
+import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnit4Mockery;
+
+import static org.jmock.Expectations.*;
+
+import org.hamcrest.Matcher;
+import org.hamcrest.FeatureMatcher;
+import static org.hamcrest.Matchers.*;
+import static org.junit.Assert.*;
 
 @RunWith(JMock.class)
 public class AuctionSniperTest {
-    private final Mockery context = new Mockery();
+    private final Mockery context = new JUnit4Mockery();
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
-    private final AuctionSniper sniper = new AuctionSniper(sniperListener);
+    private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction, sniperListener);
     private final States sniperState = context.states("sniper");
+
+    private static final String ITEM_ID = "item-id-12345";
+    private static final SniperState BIDDING = SniperState.BIDDING;
+    private static final SniperState WINNING = SniperState.WINNING;
+    private static final SniperState LOSING = SniperState.LOSING;
+    private static final SniperState FAILED = SniperState.FAILED;
+    private static final SniperState LOST = SniperState.LOST;
+
+    private void ignoringAuction() {
+        context.checking(new Expectations() {{
+            ignoring(auction);
+        }});
+    }
 
     @Test
     public void reportsLostWhenAuctionCloses() {
         context.checking(new Expectations() {{
-            one(sniperListener).sniperLost();
+            oneOf(sniperListener).sniperLost();
         }});
         sniper.auctionClosed();
     }

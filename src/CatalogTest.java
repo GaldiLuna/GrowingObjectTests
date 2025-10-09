@@ -1,6 +1,10 @@
 import org.junit.Before;
 import org.junit.Test;
 
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
 public class CatalogTest {
     private final Catalog catalog = new Catalog();
     final Entry entry = new Entry("fish", "chips");

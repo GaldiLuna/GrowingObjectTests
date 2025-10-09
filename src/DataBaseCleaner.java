@@ -1,3 +1,10 @@
+import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
+import java.lang.Class;
+import javax.persistence.Query;
+
 public class DataBaseCleaner {
     private static final Class<?>[] ENTITY_TYPES = {
             Customer.class,
@@ -7,7 +14,7 @@ public class DataBaseCleaner {
             Address.class
     };
     private final EntityManager entityManager;
-    public void DatabaseCleaner(EntityManager entityManager) {
+    public DatabaseCleaner(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
     public void clean() throws SQLException {
@@ -19,8 +26,9 @@ public class DataBaseCleaner {
         transaction.commit();
     }
     private void deleteEntities(Class<?> entityType) {
-        entityManager
-                .createQuery("delete from " + entityNameOf(entityType))
-                .executeUpdate();
+        entityManager.createQuery("delete from " + entityNameOf(entityType)).executeUpdate();
+    }
+    private String entityNameOf(Class<?> entityType) {
+        return entityType.getSimpleName();
     }
 }

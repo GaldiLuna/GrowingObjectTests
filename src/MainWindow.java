@@ -14,24 +14,32 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-// Importações de classes de domínio (necessárias para o restante do código compilar)
-
+//
 import java.util.Date;
 //
 
 public class MainWindow extends JFrame {
     public static final String SNIPER_STATUS_NAME = "sniper status";
+    public static final String APPLICATION_TITLE = "Auction Sniper";
+    public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
+    public static final String STATUS_JOINING = "Joining";
+    public static final String NEW_ITEM_ID_NAME = "item id";
+    public static final String SNIPERS_TABLE_NAME = "snipers table";
     private final SnipersTableModel snipers = new SnipersTableModel();
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
     private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
+    private JTextField stopPriceField;
+    private final Clock clock;
+    private Date dateOfFirstRequest;
 
-    public MainWindow(TableModel snipers) {
+    public MainWindow(SniperPortfolio portfolio) {
         super(APPLICATION_TITLE);
         setName(MainWindow.MAIN_WINDOW_NAME);
-        fillContentPane(makeSnipersTable(snipers), makeControls());
+        fillContentPane(makeSnipersTable(portfolio), makeControls(null));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+        this.clock = new Clock() {};
     }
 
     public void addUserRequestListener(UserRequestListener userRequestListener) {
@@ -52,6 +60,7 @@ public class MainWindow extends JFrame {
         itemIdField.setName(NEW_ITEM_ID_NAME);
         controls.add(itemIdField);
         JButton joinAuctionButton = new JButton("Join Auction");
+        stopPriceField = new JTextField();
         joinAuctionButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 userRequests.announce().joinAuction(new Item(itemId(), stopPrice()));
@@ -79,12 +88,6 @@ public class MainWindow extends JFrame {
         final Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
-    }
-
-    private JTable makeSnipersTable() {
-        final JTable snipersTable = new JTable(snipers);
-        snipersTable.setName(SNIPERS_TABLE_NAME);
-        return snipersTable;
     }
 
     public void sniperStatusChanged(SniperState sniperState, String statusText) {

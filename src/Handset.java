@@ -1,9 +1,23 @@
 public class Handset {
+    private final Network network;
+    private final Camera camera;
+    private final Display display;
+    private final DataNetwork dataNetwork;
+    private final AddressBook addressBook;
+    private final Storage storage;
+    private final Tuner tuner;
+
     public Handset(Network network, Camera camera, Display display,
                    DataNetwork dataNetwork, AddressBook addressBook,
                    Storage storage, Tuner tuner)
     {
-        // set the fields here
+        this.network = network;
+        this.camera = camera;
+        this.display = display;
+        this.dataNetwork = dataNetwork;
+        this.addressBook = addressBook;
+        this.storage = storage;
+        this.tuner = tuner;
     }
     public void placeCallTo(DirectoryNumber number) {
         network.openVoiceCallTo(number);

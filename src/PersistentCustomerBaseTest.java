@@ -1,3 +1,5 @@
+import org.junit.Test;
+
 public class PersistentCustomerBaseTest {
     final PersistentCustomerBase customerBase =
             new PersistentCustomerBase(entityManager);

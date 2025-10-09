@@ -1,4 +1,17 @@
+import org.jivesoftware.smack.XMPPConnection;
+import java.util.logging.Logger;
+import java.util.logging.FileHandler;
+import java.util.logging.SimpleFormatter;
+import java.io.File;
+
 public class XMPPAuctionHouse implements AuctionHouse {
+    private final XMPPConnection connection;
+    private final LoggingXMPPFailureReporter failureReporter;
+    public static final String LOGGER_NAME = "auction-sniper";
+    public static final String LOG_FILE_NAME = "auction-sniper.log";
+    private String getFullPath(String fileName) {
+        return new File(fileName).getAbsolutePath();
+    }
     public XMPPAuctionHouse(XMPPConnection connection) throws XMPPAuctionException {
         this.connection = connection;
         this.failureReporter = new LoggingXMPPFailureReporter(makeLogger());
@@ -20,5 +33,8 @@ public class XMPPAuctionHouse implements AuctionHouse {
         } catch (Exception e) {
             throw new XMPPAuctionException("Could not create logger FileHandler " + getFullPath(LOG_FILE_NAME), e);
         }
+    }
+    private String auctionId(String itemId, XMPPConnection connection) {
+        return itemId + connection;
     }
 }

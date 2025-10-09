@@ -1,9 +1,10 @@
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Set;
 
 public abstract class Maybe<T> implements Iterable<T> {
     abstract boolean hasResult();
-    public static Maybe<T> just(T oneValue) {
+    public static <T> Maybe<T> just(T oneValue) {
         return new Maybe<T>() {
             @Override public boolean hasResult() { return true; }
             @Override public Iterator<T> iterator() {
@@ -11,7 +12,7 @@ public abstract class Maybe<T> implements Iterable<T> {
             }
         };
     }
-    public static Maybe<T> nothing() {
+    public static <T> Maybe<T> nothing() {
         return new Maybe<T>() {
             @Override public boolean hasResult() { return false; }
             @Override public Iterator<T> iterator() {

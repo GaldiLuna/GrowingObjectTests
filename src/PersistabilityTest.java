@@ -1,7 +1,17 @@
 import org.junit.Test;
+import org.junit.Before;
 
 import java.util.Arrays;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
+import org.hamcrest.Matcher;
 
 public class PersistabilityTest {
     final List<? extends Builder<?>> persistentObjectBuilders = Arrays.asList(
@@ -15,6 +25,14 @@ public class PersistabilityTest {
             new AuctionSiteBuilder()))).withPaymentMethods(
             new CreditCardDetailsBuilder(),
             new PayMateDetailsBuilder()));
+    final EntityManagerFactory factory = Persistence.createEntityManagerFactory("example");
+    final EntityManager entityManager = factory.createEntityManager();
+    private final JPATransactor transactor = new JPATransactor(entityManager);
+
+    @Before
+    public void setup() throws Exception {
+        new DatabaseCleaner(entityManager).clean();
+    }
     private <T> Builder<T> persisted(final Builder<T> builder) {
         return new Builder<T>() {
             public T build() {
@@ -50,8 +68,8 @@ public class PersistabilityTest {
     private void assertReloadsWithSameStateAs(final Object original) throws Exception {
         transactor.perform(new UnitOfWork() {
             public void work() throws Exception {
-                assertThat(entityManager.find(original.getClass(), idOf(original)));
-                hasSamePersistenFieldsAs(original);
+                assertThat(entityManager.find(original.getClass(), PersistenceHelpers.idOf(original)));
+                PersistenceHelpers.hasSamePersistenFieldsAs(original);
             }
         });
     }
