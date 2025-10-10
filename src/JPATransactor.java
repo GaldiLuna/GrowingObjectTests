@@ -23,4 +23,16 @@ public class JPATransactor {
             throw e;
         }
     }
+    public Object performQuery(QueryUnitOfWork unitOfWork) throws Exception {
+        Object result = null;
+        EntityTransaction transaction = entityManager.getTransaction();
+        transaction.begin();
+        try {
+            result = unitOfWork.query(); // Executa o trabalho e captura o resultado
+            transaction.commit();
+            return result;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

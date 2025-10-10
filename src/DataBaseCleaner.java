@@ -5,6 +5,7 @@ import javax.persistence.EntityTransaction;
 import java.lang.Class;
 import javax.persistence.Query;
 
+
 public class DataBaseCleaner {
     private static final Class<?>[] ENTITY_TYPES = {
             Customer.class,
@@ -14,7 +15,7 @@ public class DataBaseCleaner {
             Address.class
     };
     private final EntityManager entityManager;
-    public DatabaseCleaner(EntityManager entityManager) {
+    public DataBaseCleaner(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
     public void clean() throws SQLException {

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.AbstractTableModel;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector, PortfolioListener {
     private final static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
     private final static SniperState STARTING_UP = new SniperState("", 0, 0);
     private String statusText = MainWindow.STATUS_JOINING;
@@ -63,6 +63,12 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     public static String textFor(SniperState state) {
         return STATUS_TEXT[state.ordinal()];
+    }
+
+    @Override
+    public void sniperAdded(AuctionSniper sniper) {
+        addSniper(sniper);
+        // ...
     }
 }
 

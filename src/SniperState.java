@@ -23,6 +23,7 @@ public enum SniperState {
             return LOST;
         }
     },
+    FAILED,
     LOST,
     WON;
     public SniperState whenAuctionClosed() {

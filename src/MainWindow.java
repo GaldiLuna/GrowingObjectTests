@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 //
 import java.util.Date;
+import java.lang.Number;
 //
 
 public class MainWindow extends JFrame {
@@ -39,7 +40,10 @@ public class MainWindow extends JFrame {
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-        this.clock = new Clock() {};
+        this.clock = new Clock() {
+            @Override public Date now() { return new Date(); }
+            @Override public boolean dayHasChangedFrom(Date date) { return false; }
+        };
     }
 
     public void addUserRequestListener(UserRequestListener userRequestListener) {
@@ -69,7 +73,7 @@ public class MainWindow extends JFrame {
                 return itemIdField.getText();
             }
             private int stopPrice() {
-                return ((Number)stopPriceField.getValue()).intValue();
+                return Integer.parseInt(stopPriceField.getText());
             }
         });
         controls.add(joinAuctionButton);
@@ -84,9 +88,10 @@ public class MainWindow extends JFrame {
         return snipersTable;
     }
 
-    private void fillContentPane(JTable snipersTable) {
+    private void fillContentPane(JTable snipersTable, JPanel controls) {
         final Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
+        contentPane.add(controls, BorderLayout.NORTH);
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
 

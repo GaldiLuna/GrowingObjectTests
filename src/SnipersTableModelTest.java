@@ -42,13 +42,20 @@ public class SnipersTableModelTest {
     public void setsSniperValuesInColumns() {
         SniperSnapshot joining = SniperSnapshot.joining("item id");
         SniperSnapshot bidding = joining.bidding(555, 666);
+        AuctionSniper sniper = auctionSniperFor(joining);
         context.checking(new Expectations() {{
             allowing(listener).tableChanged(with(anyInsertionEvent()));
             oneOf(listener).tableChanged(with(aChangeInRow(0)));
         }});
-        model.addSniper(joining);
+        model.addSniper(sniper);
         model.sniperStateChanged(bidding);
         assertRowMatchesSnapshot(0, bidding);
+    }
+    private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {
+        assertColumnEquals(Column.ITEM_IDENTIFIER, snapshot.itemId);
+        assertColumnEquals(Column.LAST_PRICE, snapshot.lastPrice);
+        assertColumnEquals(Column.LAST_BID, snapshot.lastBid);
+        // Note: A asserção do status aqui é mais complexa e depende de SnipersTableModel.textFor()
     }
     private void assertColumnEquals(Column column, Object expected) {
         final int rowIndex = 0;
@@ -77,6 +84,21 @@ public class SnipersTableModelTest {
         assertEquals(1, model.getRowCount());
         assertRowMatchesSnapshot(0, joining);
     }
+    private Matcher<TableModelEvent> aChangeInRow(int row) {
+        return samePropertyValuesAs(new TableModelEvent(model, row));
+    }
+    private Matcher<TableModelEvent> anyInsertionEvent() {
+        return samePropertyValuesAs(new TableModelEvent(model, 0, 0, TableModelEvent.INSERT));
+    }
+    private Matcher<TableModelEvent> anInsertionAtRow(int row) {
+        return samePropertyValuesAs(new TableModelEvent(model, row, row, TableModelEvent.INSERT));
+    }
+
+    private AuctionSniper auctionSniperFor(SniperSnapshot snapshot) {
+        AuctionSniper sniper = context.mock(AuctionSniper.class, "sniper-" + snapshot.itemId);
+        // allowing(sniper).getSnapshot(); will(returnValue(snapshot));
+        return sniper;
+    }
 
     @Test
     public void holdsSnipersInAdditionOrder() {
@@ -87,6 +109,9 @@ public class SnipersTableModelTest {
         model.addSniper(SniperSnapshot.joining("item 1"));
         assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
         assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
+    }
+    private Object cellValue(int row, Column column) {
+        return model.getValueAt(row, column.ordinal());
     }
     public void updatesCorrectRowForSniper() {  }
     public void throwsDefectIfNoExistingSniperForAnUpdate() {  }

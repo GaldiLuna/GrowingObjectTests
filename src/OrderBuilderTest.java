@@ -1,28 +1,43 @@
 import org.junit.Test;
 
+import org.junit.Before;
+import org.junit.runner.RunWith;
+import org.jmock.Expectations;
+import org.jmock.Mockery;
+import org.jmock.integration.junit4.JMock;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+
 public class OrderBuilderTest {
+    private Mockery context = new Mockery();
+
+    private final Object requestSender = context.mock(Object.class, "requestSender");
+    private final Object progressMonitor = context.mock(Object.class, "progressMonitor");
+    private final Object gui = context.mock(Object.class, "gui");
+
+    private OrderBuilder anOrder() { return new OrderBuilder(); }
+    private Object nextCustomerReference() { return new Object(); }
+    private Object aCustomer() { return new Object(); }
+    private Object anOrderAmendment() { return new Object(); }
+
     @Test
     public void chargesCustomerForTotalCostOfAllOrderedItems() {
-        Order order = new Order(new Customer("Sherlock Holmes",
-                new Address("221b Baker Street", "London", new PostCode("NW1", "3RX"))));
+        Order order = new Order(new Customer("Sherlock Holmes", new Address("221b Baker Street", "London", new PostCode("NW1", "3RX"))));
         order.addLine(new OrderLine("Deerstalker Hat", 1));
         order.addLine(new OrderLine("Tweed Cape", 1));
     }
     @Test
     public void reportsTotalSalesOfOrderedProducts() {
-        havingReceived(anOrder()
-                .withLine("Deerstalker Hat", 1)
-                .withLine("Tweed Cape", 1));
-        havingReceived(anOrder()
-                .withLine("Deerstalker Hat", 1));
+        havingReceived(anOrder().withLine("Deerstalker Hat", 1).withLine("Tweed Cape", 1));
+        havingReceived(anOrder().withLine("Deerstalker Hat", 1));
         TotalSalesReport report = gui.openSalesReport();
         report.displaysTotalSalesFor("Deerstalker Hat", equalTo(2));
         report.displaysTotalSalesFor("Tweed Cape", equalTo(1));
     }
     void sendAndProcess(OrderBuilder orderDetails) {
-        Order order = orderDetails
-                .withDefaultCustomersReference(nextCustomerReference())
-                .build();
+        Order order = orderDetails.withDefaultCustomersReference(nextCustomerReference()).build();
         requestSender.send(order);
         progressMonitor.waitForCompletion(order);
     }
@@ -38,11 +53,8 @@ public class OrderBuilderTest {
     @Test
     public void takesAmendmentsIntoAccountWhenCalculatingTotalSales() {
         Customer theCustomer = aCustomer().build();
-        havingReceived(anOrder().from(theCustomer)
-                .withLine("Deerstalker Hat", 1)
-                .withLine("Tweed Cape", 1));
-        havingReceived(anOrderAmendment().from(theCustomer)
-                .withLine("Deerstalker Hat", 2));
+        havingReceived(anOrder().from(theCustomer).withLine("Deerstalker Hat", 1).withLine("Tweed Cape", 1));
+        havingReceived(anOrderAmendment().from(theCustomer).withLine("Deerstalker Hat", 2));
         TotalSalesReport report = user.openSalesReport();
         report.containsTotalSalesFor("Deerstalker Hat", equalTo(2));
         report.containsTotalSalesFor("Tweed Cape", equalTo(1));

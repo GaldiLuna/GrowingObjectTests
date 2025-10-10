@@ -1,5 +1,11 @@
 import org.junit.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert.*;
+
+//import static XmlMarshallerTestHelpers.hasSameSerialisableFieldsAs;
+
 public class XmlMarshallerTest {
     public static class MarshalledObject {
         private String privateField = "private";
@@ -12,10 +18,10 @@ public class XmlMarshallerTest {
     }
     @Test
     public void marshallsAndUnmarshallsSerialisableFields() {
-        XMLMarshaller marshaller = new XmlMarshaller();
+        XmlMarshaller marshaller = new XmlMarshaller();
         WithTransient original = new WithTransient();
         String xml = marshaller.marshall(original);
         AuctionClosedEvent unmarshalled = marshaller.unmarshall(xml);
-        assertThat(unmarshalled, hasSameSerialisableFieldsAs(original));
+        assertThat(unmarshalled, XmlMarshallerTestHelpers.hasSameSerialisableFieldsAs(original));
     }
 }

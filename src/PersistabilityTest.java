@@ -31,7 +31,7 @@ public class PersistabilityTest {
 
     @Before
     public void setup() throws Exception {
-        new DatabaseCleaner(entityManager).clean();
+        new DataBaseCleaner(entityManager).clean();
     }
     private <T> Builder<T> persisted(final Builder<T> builder) {
         return new Builder<T>() {
@@ -68,7 +68,8 @@ public class PersistabilityTest {
     private void assertReloadsWithSameStateAs(final Object original) throws Exception {
         transactor.perform(new UnitOfWork() {
             public void work() throws Exception {
-                assertThat(entityManager.find(original.getClass(), PersistenceHelpers.idOf(original)));
+                Object reloaded = entityManager.find(original.getClass(), PersistenceHelpers.idOf(original));
+                assertThat(reloaded, PersistenceHelpers.hasSamePersistenFieldsAs(original));
                 PersistenceHelpers.hasSamePersistenFieldsAs(original);
             }
         });

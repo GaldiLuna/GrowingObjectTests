@@ -1,37 +1,24 @@
+import javax.swing.SwingUtilities;
+import java.util.concurrent.Runnable;
 public class SniperStateDisplayer implements SniperListener {
-    public void sniperBidding(final SniperState state) {
+    private final SniperListener delegate;
+
+    public SniperStateDisplayer(SniperListener delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    public void sniperStateChanged(final SniperSnapshot newSnapshot) {
         SwingUtilities.invokeLater(new Runnable() {
+            @Override
             public void run() {
-                ui.sniperStatusChanged(state, MainWindow.STATUS_BIDDING);
+                delegate.sniperStateChanged(newSnapshot);
             }
         });
     }
 
-    public void sniperStateChanged(SniperSnapshot newSnapshot) {
-        int row = rowMatching(newSnapshot);
-        snapshots.set(row, newSnapshot);
-        fireTableRowsUpdated(row, row);
-    }
-
-    private int rowMatching(SniperSnapshot snapshot) {
-        for (int i = 0; i < snapshots.size(); i++) {
-            if (newSnapshot.isForSameItemAs(snapshots.get(i))) {
-                return i;
-            }
-        }
-        throw new Defect("Cannot find match for " + snapshot);
-    }
-
     public void sniperLost() {
         showStatus(MainWindow.STATUS_LOST);
-    }
-
-    public void sniperWon() {
-        showStatus(MainWindow.STATUS_WON);
-    }
-
-    public void sniperWinning() {
-        showStatus(MainWindow.STATUS_WINNING);
     }
 
     private void showStatus(final String status) {
