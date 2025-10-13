@@ -1,5 +1,7 @@
 import javax.swing.SwingUtilities;
-import java.util.concurrent.Runnable;
+
+//import java.util.concurrent.Runnable;
+
 public class SniperStateDisplayer implements SniperListener {
     private final SniperListener delegate;
 
@@ -17,15 +19,4 @@ public class SniperStateDisplayer implements SniperListener {
         });
     }
 
-    public void sniperLost() {
-        showStatus(MainWindow.STATUS_LOST);
-    }
-
-    private void showStatus(final String status) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(status);
-            }
-        });
-    }
 }

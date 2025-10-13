@@ -1,3 +1,5 @@
 public class AuctionDescription {
-    public AuctionDescription(StubAuctionHouse house, String id) {}
+    public AuctionDescription(AuctionHouse house, String id, String description) {
+        // Implementação omitida
+    }
 }

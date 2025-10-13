@@ -19,6 +19,7 @@ import org.jmock.lib.concurrent.Synchroniser;
 
 import static java.util.Arrays.asList;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 @RunWith(JMock.class)
 public class AuctionSearchStressTests {

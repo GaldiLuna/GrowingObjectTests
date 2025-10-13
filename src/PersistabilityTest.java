@@ -70,7 +70,6 @@ public class PersistabilityTest {
             public void work() throws Exception {
                 Object reloaded = entityManager.find(original.getClass(), PersistenceHelpers.idOf(original));
                 assertThat(reloaded, PersistenceHelpers.hasSamePersistenFieldsAs(original));
-                PersistenceHelpers.hasSamePersistenFieldsAs(original);
             }
         });
     }

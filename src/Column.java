@@ -24,4 +24,8 @@ public enum Column {
     private Column(String name) {
         this.name = name;
     }
+    public static Column at(int offset) {
+        // Implementa o helper para acessar o valor pelo índice
+        return values()[offset];
+    }
 }

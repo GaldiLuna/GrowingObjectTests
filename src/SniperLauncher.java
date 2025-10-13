@@ -5,7 +5,7 @@ public class SniperLauncher implements UserRequestListener {
     private final AuctionHouse auctionHouse;
     private final SniperCollector collector;
     private final SnipersTableModel snipers;
-    public SniperLauncher(AuctionHouse auctionHouse, SnipersTableModel snipers) {
+    public SniperLauncher(AuctionHouse auctionHouse, SniperCollector sniperCollector) {
         // set the fields
     }
     public void joinAuction(String itemId) {

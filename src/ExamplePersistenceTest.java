@@ -1,10 +1,10 @@
 import org.hamcrest.MatcherAssert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
-//import org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -18,7 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Date;
 
-//import static TradeTestHelpers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ExamplePersistenceTest {
     final EntityManagerFactory factory = Persistence.createEntityManagerFactory("example");
@@ -36,7 +36,7 @@ public class ExamplePersistenceTest {
         Set set = new HashSet<String>();
         set.add("bananana");
         set.add("bananana");
-        assertThat(set.size(), equalTo(1));
+        MatcherAssert.assertThat(set.size(), equalTo(1));
     }
 
     @Test
@@ -54,8 +54,9 @@ public class ExamplePersistenceTest {
         assertEventually(TradeTestHelpers.holdingOfStock("A", tradeDate, equalTo(66)));
     }
 
-    public static <T> void assertThat(T actual, Matcher<? super T> matcher) {
-        MatcherAssert.assertThat(actual, matcher);
+    public static <T> void assertEventually(T actual, Matcher<? super T> matcher) {
+        //MatcherAssert.assertThat(actual, matcher);
+        assertThat("Eventually failed", actual, matcher); // Stub
     }
 
 }

@@ -6,6 +6,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertTrue;
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.is;
+import static org.jmock.Expectations.*;
 
 @RunWith(JMock.class)
 public class TurtleDriverTest {
@@ -20,8 +23,8 @@ public class TurtleDriverTest {
         context.checking(new Expectations() {{ // expectations
             ignoring (turtle2);
             allowing (turtle).flashLEDs();
-            oneOf (turtle).turn(45);
-            oneOf (turtle).forward(with(greaterThan(20)));
+            oneOf(turtle).turn(45);
+            oneOf(turtle).forward(with(greaterThan(20)));
             atLeast(1).of (turtle).stop();
         }});
 

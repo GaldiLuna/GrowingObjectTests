@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector, PortfolioListener {
     private final static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
-    private final static SniperState STARTING_UP = new SniperState("", 0, 0);
+    private final static SniperSnapshot STARTING_UP = SniperSnapshot.joining("");
     private String statusText = MainWindow.STATUS_JOINING;
     private SniperState sniperState = STARTING_UP;
     private final ArrayList<AuctionSniper> notToBeGCd;

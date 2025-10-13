@@ -3,6 +3,7 @@ import org.junit.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert.*;
+import static org.hamcrest.Matchers.anything;
 
 //import static XmlMarshallerTestHelpers.hasSameSerialisableFieldsAs;
 
@@ -22,6 +23,10 @@ public class XmlMarshallerTest {
         WithTransient original = new WithTransient();
         String xml = marshaller.marshall(original);
         AuctionClosedEvent unmarshalled = marshaller.unmarshall(xml);
-        assertThat(unmarshalled, XmlMarshallerTestHelpers.hasSameSerialisableFieldsAs(original));
+
+        @SuppressWarnings("unchecked")
+        Matcher<AuctionClosedEvent> comparisonMatcher = (Matcher<AuctionClosedEvent>) (Matcher<?>) XmlMarshallerTestHelpers.hasSameSerialisableFieldsAs(original);
+
+        assertThat(unmarshalled, comparisonMatcher);
     }
 }

@@ -17,18 +17,19 @@ import static org.junit.Assert.assertEquals;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-// Importações auxiliares do Hamcrest (Assume a existência de uma classe utilitária)
-// Nota: samePropertyValuesAs não é um matcher padrão do Hamcrest,
-// é geralmente fornecido por uma biblioteca ou utilitário do projeto (como o jMock Extensions).
-// Vamos importá-lo como se fosse um metodo estático de Hamcrest:
+//import static org.jmock.Expectations.oneOf;
+//import static org.jmock.Expectations.allowing;
+//import static org.jmock.Expectations.with;
+
 import static org.hamcrest.beans.SamePropertyValuesAs.samePropertyValuesAs;
-// Ou de um utilitário do seu projeto para matchers personalizados.
 
 @RunWith(JMock.class)
 public class SnipersTableModelTest {
     private final Mockery context = new Mockery();
     private TableModelListener listener = context.mock(TableModelListener.class);
     private final SnipersTableModel model = new SnipersTableModel();
+    private final AuctionSniper joiningSniper = auctionSniperFor(SniperSnapshot.joining("item id"));
+
     @Before
     public void attachModelListener() {
         model.addTableModelListener(listener);
@@ -76,11 +77,12 @@ public class SnipersTableModelTest {
     @Test
     public void notifiesListenersWhenAddingASniper() {
         SniperSnapshot joining = SniperSnapshot.joining("item123");
+        AuctionSniper sniper = auctionSniperFor(joining);
         context.checking(new Expectations() {{
             oneOf(listener).tableChanged(with(anInsertionAtRow(0)));
         }});
         assertEquals(0, model.getRowCount());
-        model.addSniper(joining);
+        model.addSniper(sniper);
         assertEquals(1, model.getRowCount());
         assertRowMatchesSnapshot(0, joining);
     }
@@ -102,11 +104,14 @@ public class SnipersTableModelTest {
 
     @Test
     public void holdsSnipersInAdditionOrder() {
+        AuctionSniper sniper0 = auctionSniperFor(SniperSnapshot.joining("item 0"));
+        AuctionSniper sniper1 = auctionSniperFor(SniperSnapshot.joining("item 1"));
+
         context.checking(new Expectations() {{
             ignoring(listener);
         }});
-        model.addSniper(SniperSnapshot.joining("item 0"));
-        model.addSniper(SniperSnapshot.joining("item 1"));
+        model.addSniper(sniper0);
+        model.addSniper(sniper1);
         assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
         assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
     }
