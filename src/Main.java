@@ -42,76 +42,16 @@ public class Main {
         main.addUserRequestListenerFor(auctionHouse);
     }
 
-    private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException {
-        XMPPConnection connection = new XMPPConnection(hostname);
-        connection.connect();
-        connection.login(username, password, AUCTION_RESOURCE);
-        return connection;
-    }
-
-    private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
-        safelyAddItemToModel(itemId);
-        Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-        notToBeGCd.add(chat);
-        Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers))));
-        auction.join();
-    }
-
-    public void sniperLost() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_LOST);
-            }
-        });
-    }
-
-    public void auctionClosed() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_LOST);
-            }
-        });
-    }
-
-    public void sniperBidding() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_BIDDING);
-            }
-        });
-    }
-
-    private void disconnectWhenUICloses(final XMPPConnection connection) {
+    private void disconnectWhenUICloses(final XMPPAuctionHouse auctionHouse) {
         ui.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                connection.disconnect();
-            }
-        });
-    }
-
-    private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
-    }
-
-    private void startUserInterface() throws Exception {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                ui = new MainWindow();
-            }
-        });
-    }
-
-    private void safelyAddItemToModel(final String itemId) throws Exception {
-        SwingUtilities.invokeAndWait(new Runnable() {
-            public void run() {
-                snipers.addSniper(SniperSnapshot.joining(itemId));
+                auctionHouse.disconnect();
             }
         });
     }
 
     private void addUserRequestListenerFor(final AuctionHouse auctionHouse) {
-        ui.addUserRequestListener(new SniperLauncher(auctionHouse, portfolio));
+        ui.addUserRequestListener(new SniperLauncher(auctionHouse, portfolio, snipers));
     }
 }

@@ -5,8 +5,6 @@ import javax.swing.table.AbstractTableModel;
 public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector, PortfolioListener {
     private final static String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
     private final static SniperSnapshot STARTING_UP = SniperSnapshot.joining("");
-    private String statusText = MainWindow.STATUS_JOINING;
-    private SniperState sniperState = STARTING_UP;
     private final ArrayList<AuctionSniper> notToBeGCd;
     private List<SniperSnapshot> snapshots; // Necessário para compilar métodos como addSniperSnapshot
     private SniperSnapshot snapshot; // Necessário para compilar getValueAt
@@ -34,11 +32,6 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
         this.snapshot = STARTING_UP; // Deve ser inicializado
     }
 
-    public void setStatusText(String newStatusText) {
-        statusText = newStatusText;
-        fireTableRowsUpdated(0, 0);
-    }
-
     public void addSniper(AuctionSniper sniper) {
         notToBeGCd.add(sniper);
         addSniperSnapshot(sniper.getSnapshot());
@@ -48,12 +41,6 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
         snapshots.add(sniperSnapshot);
         int row = snapshots.size() - 1;
         fireTableRowsInserted(row, row);
-    }
-
-    public void sniperStatusChanged(SniperState newSniperState, String newStatusText) {
-        sniperState = newSniperState;
-        statusText = newStatusText;
-        fireTableRowsUpdated(0, 0);
     }
 
     public void sniperStateChanged(SniperSnapshot newSnapshot) {

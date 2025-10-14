@@ -2,17 +2,25 @@ import java.io.IOException;
 import static org.hamcrest.Matchers.containsString;
 import static java.lang.String.format;
 
+//import static SnipersTableModel.textFor;
+//import static MainWindow.STATUS_BIDDING;
+//import static MainWindow.STATUS_WON;
+//import static MainWindow.STATUS_LOST;
+//import static MainWindow.NEW_ITEM_ID_NAME;
+
 public class ApplicationRunner {
     private String itemId;
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
     private AuctionLogDriver logDriver = new AuctionLogDriver();
+    public static final String XMPP_HOSTNAME = "localhost";
+    private Object lastPrice, lastBid, auction;
     public void startBiddingIn(final FakeAuctionServer... auctions) {
         startSniper();
         for (FakeAuctionServer auction : auctions) {
             final String itemId = auction.getItemId();
-            driver.startBiddingFor(itemId);
+            driver.startBiddingFor(itemId, Integer.MAX_VALUE);
             //driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
         }
     }
@@ -40,7 +48,7 @@ public class ApplicationRunner {
     }
     protected static String[] arguments(FakeAuctionServer... auctions) {
         String[] arguments = new String[auctions.length + 3];
-        arguments[0] = XMPP_HOSTNAME;
+        arguments[0] = FakeAuctionServer.XMPP_HOSTNAME;
         arguments[1] = SNIPER_ID;
         arguments[2] = SNIPER_PASSWORD;
         for (int i = 0; i < auctions.length; i++) {
@@ -52,13 +60,13 @@ public class ApplicationRunner {
         driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING);
     }
     public void hasShownSniperIsWinning(int winningBid) {
-        driver.showsSniperStatus(auction.getItemId(), lastPrice, lastBid, textFor(SniperState.BIDDING));
+        driver.showsSniperStatus(itemId, winningBid, winningBid, textFor(SniperState.WINNING));
     }
     public void showsSniperHasWonAuction(int lastPrice) {
         driver.showsSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WON);
     }
     public void showsSniperHasLostAuction() {
-        driver.showsSniperStatus(MainWindow.STATUS_LOST); // 6
+        driver.showsSniperStatus(MainWindow.STATUS_LOST);
     }
     public void stop() {
         if (driver != null) {

@@ -47,4 +47,13 @@ public class OrderBuilder {
     public OrderBuilder withLine(String item, int quantity) { return this; }
     public OrderBuilder withDiscount(double discount) { return this; }
     public OrderBuilder fromCustomer(CustomerBuilder customerBuilder) { return this; }
+    public OrderBuilder withDefaultCustomersReference(Object ref) {
+        return this;
+    }
+    public OrderBuilder withCustomersReference(Object ref) {
+        return this;
+    }
+    public OrderBuilder from(Customer theCustomer) {
+        return withCustomer(theCustomer);
+    }
 }

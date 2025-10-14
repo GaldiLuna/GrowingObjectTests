@@ -5,12 +5,14 @@ public class SniperLauncher implements UserRequestListener {
     private final AuctionHouse auctionHouse;
     private final SniperCollector collector;
     private final SnipersTableModel snipers;
-    public SniperLauncher(AuctionHouse auctionHouse, SniperCollector sniperCollector) {
-        // set the fields
+    public SniperLauncher(AuctionHouse auctionHouse, SniperCollector collector, SnipersTableModel snipers) {
+        this.auctionHouse = auctionHouse;
+        this.collector = collector;
+        this.snipers = snipers;
     }
-    public void joinAuction(String itemId) {
-        Auction auction = auctionHouse.auctionFor(itemId);
-        AuctionSniper sniper = new AuctionSniper(itemId, auction);
+    public void joinAuction(Item item) {
+        Auction auction = auctionHouse.auctionFor(item.identifier);
+        AuctionSniper sniper = new AuctionSniper(item.identifier, auction, snipers);
         auction.addAuctionEventListener(sniper);
         collector.addSniper(sniper);
         auction.join();

@@ -6,6 +6,7 @@ import com.objogate.wl.swing.driver.JTableHeaderDriver;
 
 import com.objogate.wl.swing.AWTEventQueueProber;
 //import com.objogate.wl.swing.GesturePerformer;
+import com.objogate.wl.gesture.*;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -21,11 +22,15 @@ import static java.lang.String.valueOf;
 
 //import static org.hamcrest.Matchers.matching; // Assumindo o uso de matching()
 
+//import static MainWindow.NEW_ITEM_ID_NAME;
+//import static MainWindow.NEW_ITEM_STOP_PRICE_NAME;
+//import static MainWindow.JOIN_BUTTON_NAME;
+
 public class AuctionSniperDriver extends JFrameDriver {
     @SuppressWarnings("unchecked")
     public void startBiddingFor(String itemId, int stopPrice) {
-        textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
-        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(stopPrice));
+        textField(MainWindow.NEW_ITEM_ID_NAME).replaceAllText(itemId);
+        textField(MainWindow.NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(stopPrice));
         bidButton().click();
     }
     private JTextFieldDriver itemIdField() {
@@ -37,8 +42,8 @@ public class AuctionSniperDriver extends JFrameDriver {
         return new JButtonDriver(this, JButton.class, named(MainWindow.JOIN_BUTTON_NAME));
     }
     public AuctionSniperDriver(int timeoutMillis) {
-        //super(new GesturePerformer(), topLevelFrame(named(Main.MAIN_WINDOW_NAME), showingOnScreen()), new AWTEventQueueProber(timeoutMillis, 100));
-        super(topLevelFrame(named(Main.MAIN_WINDOW_NAME), showingOnScreen()), new AWTEventQueueProber(timeoutMillis, 100));
+        super(new GesturePerformer(), topLevelFrame(named(Main.MAIN_WINDOW_NAME), showingOnScreen()), new AWTEventQueueProber(timeoutMillis, 100));
+        //super(topLevelFrame(named(Main.MAIN_WINDOW_NAME), showingOnScreen()), new AWTEventQueueProber(timeoutMillis, 100));
     }
     public void showsSniperStatus(String itemId, int lastPrice, int lastBid, String statusText) {
         JTableDriver table = new JTableDriver(this);

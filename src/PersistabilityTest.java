@@ -67,9 +67,10 @@ public class PersistabilityTest {
     }
     private void assertReloadsWithSameStateAs(final Object original) throws Exception {
         transactor.perform(new UnitOfWork() {
+            @SuppressWarnings("unchecked")
             public void work() throws Exception {
                 Object reloaded = entityManager.find(original.getClass(), PersistenceHelpers.idOf(original));
-                assertThat(reloaded, PersistenceHelpers.hasSamePersistenFieldsAs(original));
+                assertThat(reloaded, (Matcher<Object>) PersistenceHelpers.hasSamePersistenFieldsAs(original));
             }
         });
     }

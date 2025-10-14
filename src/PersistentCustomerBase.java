@@ -12,6 +12,7 @@ public class PersistentCustomerBase implements CustomerBase {
     public void addCustomer(Customer customer) {
         entityManager.persist(customer);
     }
+    @Override
     public List<Customer> customersWithExpiredCreditCardsAt(Date deadline) {
         Query query = entityManager.createQuery(
                 "select c from Customer c, CreditCardDetails d " +

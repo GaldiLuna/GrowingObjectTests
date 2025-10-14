@@ -10,17 +10,26 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-public class OrderBuilderTest {
+public class OrderBuilderTest implements RequestSender, ProgressMonitor, Gui{
     private Mockery context = new Mockery();
 
-    private final Object requestSender = context.mock(Object.class, "requestSender");
-    private final Object progressMonitor = context.mock(Object.class, "progressMonitor");
-    private final Object gui = context.mock(Object.class, "gui");
+//    private final Object requestSender = context.mock(Object.class, "requestSender");
+//    private final Object progressMonitor = context.mock(Object.class, "progressMonitor");
+//    private final Object gui = context.mock(Object.class, "gui");
+    private final Object user = context.mock(Object.class, "user");
 
     private OrderBuilder anOrder() { return new OrderBuilder(); }
     private Object nextCustomerReference() { return new Object(); }
-    private Object aCustomer() { return new Object(); }
-    private Object anOrderAmendment() { return new Object(); }
+    private CustomerBuilder aCustomer() { return new CustomerBuilder(); }
+    private OrderBuilder anOrderAmendment() { return new OrderBuilder(); }
+
+    void havingReceived(OrderBuilder orderDetails) {
+        sendAndProcess(orderDetails);
+    }
+
+    TotalSalesReport openSalesReport() {
+        return (TotalSalesReport) gui.openSalesReport();
+    }
 
     @Test
     public void chargesCustomerForTotalCostOfAllOrderedItems() {

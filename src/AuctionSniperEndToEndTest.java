@@ -6,10 +6,16 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
 
+//import static ApplicationRunner.SNIPER_XMPP_ID;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class AuctionSniperEndToEndTest {
     private final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
     private final FakeAuctionServer auction2 = new FakeAuctionServer("item-65432");
     private final ApplicationRunner application = new ApplicationRunner();
+    private final Object connection = null;
+    private final FakeAuctionServer auctionServer = auction;
+    private final FakeAuctionServer server = auction;
 
     @Test
     public void sniperJoinsAuctionUntilAuctionCloses() throws Exception {
@@ -26,7 +32,7 @@ public class AuctionSniperEndToEndTest {
         application.startBiddingIn(auction);
         auction.hasReceivedJoinRequestFrom(ApplicationRunner.SNIPER_XMPP_ID);
         auction.reportPrice(1000, 98, "other bidder");
-        application.hasShownSniperIsBidding();
+        application.hasShownSniperIsBidding(auction,1000, 1098);
         auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
         auction.announceClosed();
         application.showsSniperHasLostAuction();

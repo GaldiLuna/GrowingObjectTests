@@ -19,12 +19,11 @@ public class CdPlayer {
             thirdParty.adjourn();
         }
     }
-    private Matcher<? super Instrument>
-    instrumentWithPrice(Matcher<? super Integer> priceMatcher) {
+    private Matcher<? super Instrument> instrumentWithPrice(Matcher<? super Integer> priceMatcher) {
         return new FeatureMatcher<Instrument, Integer>(
                 priceMatcher, "instrument at price", "price") {
             @Override protected Integer featureValueOf(Instrument actual) {
-                return actual.getStrikePrice();
+                return (Integer) actual.getStrikePrice();
             }
         };
     }
