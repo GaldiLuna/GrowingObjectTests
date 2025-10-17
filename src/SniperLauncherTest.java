@@ -17,7 +17,8 @@ public class SniperLauncherTest {
     private final AuctionHouse auctionHouse = context.mock(AuctionHouse.class);
     private final SniperCollector sniperCollector = context.mock(SniperCollector.class);
     private final Auction auction = context.mock(Auction.class);
-    private final SniperLauncher launcher = new SniperLauncher(auctionHouse, sniperCollector);
+    private final SnipersTableModel snipersTableModel = context.mock(SnipersTableModel.class);
+    private final SniperLauncher launcher = new SniperLauncher(auctionHouse, sniperCollector, snipersTableModel);
     private final String item = "item 123"; // Simplificação do item usado no teste.
     private Matcher<AuctionSniper> sniperForItem(final String itemId) {
         // Assume-se que a lógica do FeatureMatcher para verificar o itemId
@@ -27,6 +28,7 @@ public class SniperLauncherTest {
     @Test
     public void addsNewSniperToCollectorAndThenJoinsAuction() {
         final String itemId = "item 123";
+        final Item item = new Item(itemId, 1000);
         context.checking(new Expectations() {{
             final Matcher<AuctionSniper> sniperMatcher = sniperForItem(itemId);
             allowing(auctionHouse).auctionFor(itemId);
@@ -38,6 +40,6 @@ public class SniperLauncherTest {
             oneOf(auction).join();
             then(auctionState.is("joined"));
         }});
-        launcher.joinAuction(itemId);
+        launcher.joinAuction(item);
     }
 }

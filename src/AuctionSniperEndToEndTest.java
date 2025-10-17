@@ -5,6 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 //import static ApplicationRunner.SNIPER_XMPP_ID;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -35,7 +36,7 @@ public class AuctionSniperEndToEndTest {
         application.hasShownSniperIsBidding(auction,1000, 1098);
         auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
         auction.announceClosed();
-        application.showsSniperHasLostAuction();
+        application.showsSniperHasLostAuction(auction,1098, 1000);
     }
 
     // Limpeza adicional
@@ -53,7 +54,7 @@ public class AuctionSniperEndToEndTest {
         application.startBiddingIn(auction);
         auction.hasReceivedJoinRequestFrom(ApplicationRunner.SNIPER_XMPP_ID);
         auction.reportPrice(1000, 98, "other bidder");
-        application.hasShownSniperIsBidding(1000, 1098); // last price, last bid
+        application.hasShownSniperIsBidding(auction,1000, 1098); // last price, last bid
         auction.hasReceivedBid(1098, ApplicationRunner.SNIPER_XMPP_ID);
         auction.reportPrice(1098, 97, ApplicationRunner.SNIPER_XMPP_ID);
         application.hasShownSniperIsWinning(1098); // winning bid
@@ -114,6 +115,7 @@ public class AuctionSniperEndToEndTest {
             public void currentPrice(int price, int increment, PriceSource priceSource) {
                 // not implemented
             }
+            public void auctionFailed() {}
         };
     }
 

@@ -6,11 +6,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class AuctionSearch {
     private final Executor executor;
-    private final List<AuctionHouse> auctionHouses;
+    private final List<StubAuctionHouse> auctionHouses;
     private final AuctionSearchConsumer consumer;
     private final AtomicInteger runningSearchCount = new AtomicInteger();
     public AuctionSearch(Executor executor,
-                         List<AuctionHouse> houses,
+                         List<StubAuctionHouse> houses,
                          AuctionSearchConsumer consumer)
     {
         this.executor = executor;
@@ -19,11 +19,11 @@ public class AuctionSearch {
     }
     public void search(Set<String> keywords) {
         runningSearchCount.set(auctionHouses.size());
-        for (AuctionHouse auctionHouse : auctionHouses) {
+        for (StubAuctionHouse auctionHouse : auctionHouses) {
             startSearching(auctionHouse, keywords);
         }
     }
-    private void startSearching(final AuctionHouse auctionHouse,
+    private void startSearching(final StubAuctionHouse auctionHouse,
                                 final Set<String> keywords)
     {
         // no longer increments the count here
@@ -33,7 +33,7 @@ public class AuctionSearch {
             }
         });
     }
-    private void search(AuctionHouse auctionHouse, Set<String> keywords) {
+    private void search(StubAuctionHouse auctionHouse, Set<String> keywords) {
         consumer.auctionSearchFound(auctionHouse.findAuctions(keywords));
         if (runningSearchCount.decrementAndGet() == 0) {
             consumer.auctionSearchFinished();

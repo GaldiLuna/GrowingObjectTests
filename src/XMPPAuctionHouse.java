@@ -9,6 +9,7 @@ public class XMPPAuctionHouse implements AuctionHouse {
     private final LoggingXMPPFailureReporter failureReporter;
     public static final String LOGGER_NAME = "auction-sniper";
     public static final String LOG_FILE_NAME = "auction-sniper.log";
+    public static XMPPAuctionHouse connect(String h, String u, String p) { return null; }
     private String getFullPath(String fileName) {
         return new File(fileName).getAbsolutePath();
     }
@@ -37,4 +38,5 @@ public class XMPPAuctionHouse implements AuctionHouse {
     private String auctionId(String itemId, XMPPConnection connection) {
         return itemId + connection;
     }
+    public void disconnect() {}
 }

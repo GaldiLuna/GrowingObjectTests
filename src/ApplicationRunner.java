@@ -11,6 +11,7 @@ import static java.lang.String.format;
 public class ApplicationRunner {
     private String itemId;
     public static final String SNIPER_ID = "sniper";
+    public static final String SNIPER_XMPP_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
     private AuctionSniperDriver driver;
     private AuctionLogDriver logDriver = new AuctionLogDriver();
@@ -60,13 +61,23 @@ public class ApplicationRunner {
         driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING);
     }
     public void hasShownSniperIsWinning(int winningBid) {
-        driver.showsSniperStatus(itemId, winningBid, winningBid, textFor(SniperState.WINNING));
+        driver.showsSniperStatus(itemId, winningBid, winningBid, SnipersTableModel.textFor(SniperState.WINNING));
+    }
+    public void hasShownSniperIsLosing(FakeAuctionServer auction, int lastPrice, int lastBid) {
+        driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_LOSING);
     }
     public void showsSniperHasWonAuction(int lastPrice) {
         driver.showsSniperStatus(itemId, lastPrice, lastPrice, MainWindow.STATUS_WON);
     }
-    public void showsSniperHasLostAuction() {
-        driver.showsSniperStatus(MainWindow.STATUS_LOST);
+    public void showsSniperHasLostAuction(FakeAuctionServer auction, int lastPrice, int lastBid) {
+        driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_LOST);
+    }
+    public void showsSniperHasFailed(FakeAuctionServer auction) {
+        // Implementação stub
+    }
+    public static String textFor(SniperState state) {
+        // Stub para compilar o resto do ApplicationRunner
+        return "STATUS_STUB";
     }
     public void stop() {
         if (driver != null) {

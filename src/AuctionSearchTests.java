@@ -14,16 +14,28 @@ import org.jmock.States;
 import static java.util.Arrays.asList;
 import org.hamcrest.MatcherAssert;
 
+//import static StubAuctionHouse.auction;
+//import static StubAuctionHouse.houses;
+//import static AuctionSearchTests.StubAuctionHouse.auction;
+//import static AuctionSearchTests.StubAuctionHouse.houses;
+//import static AuctionSearchTests.StubAuctionHouse.set;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.jmock.Expectations.*;
+import static org.hamcrest.Matchers.anything;
+
 @RunWith(JMock.class)
 public class AuctionSearchTests {
     Mockery context = new JUnit4Mockery();
     final DeterministicExecutor executor = new DeterministicExecutor();
     final StubAuctionHouse houseA = new StubAuctionHouse("houseA");
     final StubAuctionHouse houseB = new StubAuctionHouse("houseB");
-    List<AuctionDescription> resultsFromA = asList(auction(houseA, "1"));
-    List<AuctionDescription> resultsFromB = asList(auction(houseB, "2"));;
+    List<AuctionDescription> resultsFromA = (StubAuctionHouse.auction(houseA, "1", "descriptionA"));
+    List<AuctionDescription> resultsFromB = (StubAuctionHouse.auction(houseB, "2", "descriptionB"));;
     final AuctionSearchConsumer consumer = context.mock(AuctionSearchConsumer.class);
-    final AuctionSearch search = new AuctionSearch(executor, houses(houseA, houseB), consumer);
+    final AuctionSearch search = new AuctionSearch(executor, auctionHouses(houseA, houseB), consumer);
 
     @Test
     public void searchesAllAuctionHouses() throws Exception {
