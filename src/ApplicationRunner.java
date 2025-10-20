@@ -57,7 +57,7 @@ public class ApplicationRunner {
         }
         return arguments;
     }
-    public void hasShownSniperIsBidding(FakeAuctionServer auction, int lastPrice, int lastBid) {
+    public void hasShownSniperIsBidding(String itemId, int lastPrice, int lastBid) {
         driver.showsSniperStatus(itemId, lastPrice, lastBid, MainWindow.STATUS_BIDDING);
     }
     public void hasShownSniperIsWinning(int winningBid) {

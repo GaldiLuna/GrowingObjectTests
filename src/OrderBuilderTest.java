@@ -13,9 +13,9 @@ import static org.hamcrest.Matchers.is;
 public class OrderBuilderTest implements RequestSender, ProgressMonitor, Gui{
     private Mockery context = new Mockery();
 
-//    private final Object requestSender = context.mock(Object.class, "requestSender");
-//    private final Object progressMonitor = context.mock(Object.class, "progressMonitor");
-//    private final Object gui = context.mock(Object.class, "gui");
+    private final Object requestSender = context.mock(Object.class, "requestSender");
+    private final Object progressMonitor = context.mock(Object.class, "progressMonitor");
+    private final Object gui = context.mock(Object.class, "gui");
     private final Object user = context.mock(Object.class, "user");
 
     private OrderBuilder anOrder() { return new OrderBuilder(); }
@@ -27,7 +27,12 @@ public class OrderBuilderTest implements RequestSender, ProgressMonitor, Gui{
         sendAndProcess(orderDetails);
     }
 
-    TotalSalesReport openSalesReport() {
+    @Override
+    public void send(Order order) { /* stub */ }
+    @Override
+    public void waitForCompletion(Order order) { /* stub */ }
+    @Override
+    public TotalSalesReport openSalesReport() {
         return (TotalSalesReport) gui.openSalesReport();
     }
 
@@ -41,14 +46,14 @@ public class OrderBuilderTest implements RequestSender, ProgressMonitor, Gui{
     public void reportsTotalSalesOfOrderedProducts() {
         havingReceived(anOrder().withLine("Deerstalker Hat", 1).withLine("Tweed Cape", 1));
         havingReceived(anOrder().withLine("Deerstalker Hat", 1));
-        TotalSalesReport report = gui.openSalesReport();
+        TotalSalesReport report = openSalesReport();
         report.displaysTotalSalesFor("Deerstalker Hat", equalTo(2));
         report.displaysTotalSalesFor("Tweed Cape", equalTo(1));
     }
     void sendAndProcess(OrderBuilder orderDetails) {
         Order order = orderDetails.withDefaultCustomersReference(nextCustomerReference()).build();
-        requestSender.send(order);
-        progressMonitor.waitForCompletion(order);
+        send(order);
+        waitForCompletion(order);
     }
     void submitOrderFor(String ... products) {
         OrderBuilder orderBuilder = anOrder().withCustomersReference(nextCustomerReference());
@@ -56,16 +61,17 @@ public class OrderBuilderTest implements RequestSender, ProgressMonitor, Gui{
             orderBuilder = orderBuilder.withLine(product, 1);
         }
         Order order = orderBuilder.build();
-        requestSender.send(order);
-        progressMonitor.waitForCompletion(order);
+        send(order);
+        waitForCompletion(order);
     }
     @Test
     public void takesAmendmentsIntoAccountWhenCalculatingTotalSales() {
         Customer theCustomer = aCustomer().build();
         havingReceived(anOrder().from(theCustomer).withLine("Deerstalker Hat", 1).withLine("Tweed Cape", 1));
         havingReceived(anOrderAmendment().from(theCustomer).withLine("Deerstalker Hat", 2));
-        TotalSalesReport report = user.openSalesReport();
+        TotalSalesReport report = openSalesReport();
         report.containsTotalSalesFor("Deerstalker Hat", equalTo(2));
         report.containsTotalSalesFor("Tweed Cape", equalTo(1));
     }
+
 }

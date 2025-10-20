@@ -6,7 +6,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jmock.States;
 import org.jmock.Mockery;
 import org.jmock.Expectations;
-import static org.jmock.Expectations.*;
 import org.hamcrest.Matcher;
 import static org.hamcrest.Matchers.anything;
 

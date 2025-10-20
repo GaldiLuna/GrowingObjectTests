@@ -29,4 +29,6 @@ public enum SniperState {
     public SniperState whenAuctionClosed() {
         throw new Defect("Auction is already closed");
     }
+    SniperState(String id, int p, int b) {}
+    public static final SniperState BIDDING = new SniperState(null, 0, 0);
 }

@@ -4,7 +4,7 @@ import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 import java.io.File;
 
-public class XMPPAuctionHouse implements AuctionHouse {
+public class XMPPAuctionHouse {
     private final XMPPConnection connection;
     private final LoggingXMPPFailureReporter failureReporter;
     public static final String LOGGER_NAME = "auction-sniper";
@@ -38,5 +38,8 @@ public class XMPPAuctionHouse implements AuctionHouse {
     private String auctionId(String itemId, XMPPConnection connection) {
         return itemId + connection;
     }
-    public void disconnect() {}
+    @Override
+    public void disconnect() {
+        connection.disconnect();
+    }
 }

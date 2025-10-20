@@ -66,4 +66,6 @@ public class FakeAuctionServer {
     public void stop() {
         connection.disconnect();
     }
+
+    public void sendInvalidMessageContaining(String brokenMessage) {}
 }

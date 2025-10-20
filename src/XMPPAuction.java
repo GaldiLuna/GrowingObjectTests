@@ -5,7 +5,7 @@ import org.jivesoftware.smack.XMPPException;
 import static java.lang.String.format;
 import java.lang.String;
 
-public class XMPPAuction implements Auction {
+public class XMPPAuction<XMPPConnection> implements Auction {
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
     private final Chat chat;
     private final XMPPConnection connection;

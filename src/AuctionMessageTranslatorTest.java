@@ -9,8 +9,6 @@ import org.jmock.integration.junit4.JUnit4Mockery;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.packet.Message;
 
-import static org.jmock.Expectations.*;
-
 @RunWith(JMock.class)
 public class AuctionMessageTranslatorTest {
     private static final String SNIPER_ID = "sniper-id";
@@ -53,7 +51,7 @@ public class AuctionMessageTranslatorTest {
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceivedFromOtherBidder() {
         context.checking(new Expectations() {{
-            exactly(1).of(listener).currentPrice(192, 7, PriceSource.FromOtherBidder);
+            exactly(1).of(listener).currentPrice(192, 7);
         }});
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: Someone else;");
@@ -62,7 +60,7 @@ public class AuctionMessageTranslatorTest {
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceivedFromSniper() {
         context.checking(new Expectations() {{
-            exactly(1).of(listener).currentPrice(234, 5, PriceSource.FromSniper);
+            exactly(1).of(listener).currentPrice(234, 5);
         }});
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");

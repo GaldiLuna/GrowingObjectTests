@@ -35,7 +35,7 @@ public class AuctionSearchTests {
     List<AuctionDescription> resultsFromA = (StubAuctionHouse.auction(houseA, "1", "descriptionA"));
     List<AuctionDescription> resultsFromB = (StubAuctionHouse.auction(houseB, "2", "descriptionB"));;
     final AuctionSearchConsumer consumer = context.mock(AuctionSearchConsumer.class);
-    final AuctionSearch search = new AuctionSearch(executor, auctionHouses(houseA, houseB), consumer);
+    final AuctionSearch search = new AuctionSearch(executor, StubAuctionHouse.houses(houseA, houseB), consumer);
 
     @Test
     public void searchesAllAuctionHouses() throws Exception {

@@ -1,3 +1,4 @@
 public interface UnpackedMessage {
-    /* métodos como asDomesticMessage() */
+    Object asDomesticMessage();
+    Object asImportedMessage();
 }

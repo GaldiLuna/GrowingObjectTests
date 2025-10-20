@@ -1,5 +1,3 @@
-import org.jmock.Expectations;
-
 public class AuctionSniper implements AuctionEventListener {
     private SniperSnapshot snapshot;
     private boolean isWinning = false;
@@ -37,7 +35,7 @@ public class AuctionSniper implements AuctionEventListener {
         listeners.announce().auctionFailed();
         notifyChange();
     }
-    public void currentPrice(int price, int increment, PriceSource priceSource) {
+    public void currentPrice(int price, int increment) {
         switch(priceSource) {
             case FromSniper:
                 snapshot = snapshot.winning(price);

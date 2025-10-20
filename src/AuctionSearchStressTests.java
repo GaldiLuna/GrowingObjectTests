@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.Arrays;
 
 import org.jmock.Mockery;
 import org.jmock.Expectations;
@@ -33,7 +31,7 @@ public class AuctionSearchStressTests {
     final AuctionSearchConsumer consumer = context.mock(AuctionSearchConsumer.class);
     final States searching = context.states("searching");
     final ExecutorService executor = Executors.newCachedThreadPool();
-    final AuctionSearch search = new AuctionSearch(executor, auctionHouses(), consumer);
+    final AuctionSearch search = new AuctionSearch(executor, StubAuctionHouse.houses(), consumer);
     private void waitForSearchToFinish() throws InterruptedException {
         Thread.sleep(250);
     }
