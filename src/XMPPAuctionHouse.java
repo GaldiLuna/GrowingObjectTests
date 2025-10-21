@@ -1,3 +1,4 @@
+import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPConnection;
 import java.util.logging.Logger;
 import java.util.logging.FileHandler;
@@ -38,8 +39,7 @@ public class XMPPAuctionHouse {
     private String auctionId(String itemId, XMPPConnection connection) {
         return itemId + connection;
     }
-    @Override
-    public void disconnect() {
+    public void disconnect() throws SmackException.NotConnectedException {
         connection.disconnect();
     }
 }

@@ -21,4 +21,14 @@ public class StubAuctionHouse implements AuctionHouse {
         // stub
         return null;
     }
+
+    @Override
+    public Auction auctionFor(String itemId) {
+        return null;
+    }
+
+    @Override
+    public void disconnect() {
+        // O stub não faz nada em teste, mas cumpre o contrato.
+    }
 }

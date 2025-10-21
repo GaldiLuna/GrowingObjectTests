@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import javax.swing.SwingUtilities;
 
 import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.SmackException;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -45,7 +46,11 @@ public class Main {
         ui.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                auctionHouse.disconnect();
+                try {
+                    auctionHouse.disconnect();
+                } catch (SmackException.NotConnectedException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
     }

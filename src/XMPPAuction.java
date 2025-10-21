@@ -5,10 +5,11 @@ import org.jivesoftware.smack.XMPPException;
 import static java.lang.String.format;
 import java.lang.String;
 
-public class XMPPAuction<XMPPConnection> implements Auction {
+public class XMPPAuction implements Auction {
     private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
     private final Chat chat;
     private final XMPPConnection connection;
+    private final LoggingXMPPFailureReporter failureReporter;
     public static final String AUCTION_ID_FORMAT = "";
     public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
     public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
@@ -30,6 +31,11 @@ public class XMPPAuction<XMPPConnection> implements Auction {
     }
     private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) {
         return new AuctionEventListener() {
+            @Override
+            public void currentPrice(int price, int increment, PriceSource priceSource) {
+
+            }
+
             public void auctionFailed() {
                 chat.removeMessageListener(translator);
             }

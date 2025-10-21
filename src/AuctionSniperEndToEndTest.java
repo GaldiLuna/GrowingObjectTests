@@ -118,7 +118,7 @@ public class AuctionSniperEndToEndTest {
     private AuctionEventListener auctionClosedListener(final CountDownLatch auctionWasClosed) {
         return new AuctionEventListener() {
             public void auctionClosed() { auctionWasClosed.countDown(); }
-            public void currentPrice(int price, int increment) {
+            public void currentPrice(int price, int increment, PriceSource priceSource) {
                 // not implemented
             }
             @Override

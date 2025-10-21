@@ -28,13 +28,13 @@ public class MusicCentreTest {
     private final Video video2 = context.mock(Video.class, "video2");
 
     // Mock objects e variáveis para o teste de "decidesCasesWhenFirstPartyIsReady"
-    private final Object firstPart = context.mock(Object.class, "firstPart");
-    private final Object organizer = context.mock(Object.class, "organizer");
-    private final Object adjudicator = context.mock(Object.class, "adjudicator");
+    private final ReadyChecker firstPart = context.mock(ReadyChecker.class, "firstPart");
+    private final Organizer organizer = context.mock(Organizer.class, "organizer");
+    private final Adjudicator adjudicator = context.mock(Adjudicator.class, "adjudicator");
     private final Object issue = new Object();
-    private final Object caseVar = new Object();
-    private final Object thirdParty = context.mock(Object.class, "thirdParty");
-    private final Object claimsProcessor = context.mock(Object.class, "claimsProcessor");
+    private final Case caseVar = context.mock(Case.class, "caseVar");
+    private final ThirdParty thirdParty = context.mock(ThirdParty.class, "thirdParty");
+    private final ClaimsProcessor claimsProcessor = context.mock(ClaimsProcessor.class, "claimsProcessor");
 
 
     @Test
@@ -48,6 +48,26 @@ public class MusicCentreTest {
         CdPlayer player = new CdPlayer() {
             @Override public void scheduleToStartAt(Object startTime) {
                 scheduledTime.set(startTime);
+            }
+
+            @Override
+            public void stop() {
+
+            }
+
+            @Override
+            public void gotoTrack(int trackNumber) {
+
+            }
+
+            @Override
+            public void spinUpDisk() {
+
+            }
+
+            @Override
+            public void eject() {
+
             }
         };
         MusicCentre centre = new MusicCentre(player);
@@ -81,7 +101,7 @@ public class MusicCentreTest {
     public void decidesCasesWhenFirstPartyIsReady() {
 
         context.checking(new Expectations(){{
-            // allowing() é um método do JMock, agora corretamente referenciado
+            // allowing() é um metodo do JMock, agora corretamente referenciado
             allowing(firstPart).isReady(); will(returnValue(true));
             allowing(organizer).getAdjudicator(); will(returnValue(adjudicator));
             // Substituído 'case' por 'caseVar'
@@ -89,7 +109,7 @@ public class MusicCentreTest {
             oneOf(thirdParty).proceedWith(caseVar);
         }});
 
-        claimsProcessor.adjudicateIfReady(thirdParty, issue);
+        claimsProcessor.adjudicateIfReady(thirdParty, (Issue) issue);
     }
 
 // ---

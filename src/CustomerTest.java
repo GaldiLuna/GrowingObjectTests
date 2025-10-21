@@ -14,7 +14,7 @@ public class CustomerTest {
     final LineItem item1 = context.mock(LineItem.class, "item1");
     final LineItem item2 = context.mock(LineItem.class, "item2");
     final Billing billing = context.mock(Billing.class);
-    private final Customer customer = new Customer();
+    private final Customer customer = new Customer("Test Customer", new Address("1 Main St", "City", new PostCode("P", "C")));
     @Test
     public void requestsInvoiceForPurchasedItems() {
         context.checking(new Expectations() {{

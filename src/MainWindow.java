@@ -99,16 +99,8 @@ public class MainWindow extends JFrame {
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
 
-    public void sniperStatusChanged(SniperState sniperState, String statusText) {
-        snipers.sniperStatusChanged(sniperState, statusText);
-    }
-
     public void sniperStateChanged(SniperSnapshot snapshot) {
         snipers.sniperStateChanged(snapshot);
-    }
-
-    public void showStatusText(String statusText) {
-        snipers.setStatusText(statusText);
     }
 
     public void showStatus(String status) {

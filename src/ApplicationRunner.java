@@ -3,10 +3,16 @@ import static org.hamcrest.Matchers.containsString;
 import static java.lang.String.format;
 
 //import static SnipersTableModel.textFor;
+//import static SniperState.JOINING;
+
+//import static SnipersTableModel.textFor;
 //import static MainWindow.STATUS_BIDDING;
 //import static MainWindow.STATUS_WON;
 //import static MainWindow.STATUS_LOST;
+//import static MainWindow.STATUS_LOSING;
 //import static MainWindow.NEW_ITEM_ID_NAME;
+//import static MainWindow.NEW_ITEM_STOP_PRICE_NAME;
+//import static MainWindow.JOIN_BUTTON_NAME;
 
 public class ApplicationRunner {
     private String itemId;
@@ -41,7 +47,7 @@ public class ApplicationRunner {
         thread.setDaemon(true);
         thread.start();
         driver = new AuctionSniperDriver(1000);
-        driver.showsSniperStatus(textFor(SniperState.JOINING));
+        driver.showsSniperStatus("item-id-placeholder", 0, 0, textFor(SniperState.JOINING));
     }
     private void openBiddingFor(FakeAuctionServer auction, int stopPrice) {
         // Lógica de abertura para o startBiddingWithStopPrice
