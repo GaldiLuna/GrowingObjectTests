@@ -1,11 +1,14 @@
 import org.jivesoftware.smack.SmackException;
 import org.jivesoftware.smack.XMPPConnection;
+
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import java.util.logging.FileHandler;
 import java.util.logging.SimpleFormatter;
 import java.io.File;
 
-public class XMPPAuctionHouse {
+public class XMPPAuctionHouse implements AuctionHouse {
     private final XMPPConnection connection;
     private final LoggingXMPPFailureReporter failureReporter;
     public static final String LOGGER_NAME = "auction-sniper";
@@ -18,6 +21,12 @@ public class XMPPAuctionHouse {
         this.connection = connection;
         this.failureReporter = new LoggingXMPPFailureReporter(makeLogger());
     }
+
+    @Override
+    public List<AuctionDescription> findAuctions(Set<String> keywords) {
+        return List.of();
+    }
+
     public Auction auctionFor(String itemId) {
         return new XMPPAuction(connection, auctionId(itemId, connection), failureReporter);
     }

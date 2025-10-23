@@ -9,9 +9,16 @@ public class PersistentCustomerBase implements CustomerBase {
     public PersistentCustomerBase(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
+
+    @Override
+    public Maybe<Customer> findCustomerWithEmailAddress(String emailAddress) {
+        return Maybe.nothing();
+    }
+    @Override
     public void addCustomer(Customer customer) {
         entityManager.persist(customer);
     }
+
     @Override
     public List<Customer> customersWithExpiredCreditCardsAt(Date deadline) {
         Query query = entityManager.createQuery(

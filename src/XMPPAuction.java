@@ -1,6 +1,5 @@
-import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.XMPPConnection;
-import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.*;
+//import org.jivesoftware.smack.chat.ChatManager;
 
 import static java.lang.String.format;
 import java.lang.String;
@@ -18,7 +17,7 @@ public class XMPPAuction implements Auction {
         this.connection = connection;
         this.failureReporter = null;
         AuctionMessageTranslator translator = translatorFor(connection);
-        this.chat = connection.getChatManager().createChat(auctionJID, translator);
+        this.chat = ChatManager.getInstanceFor(connection).createChat(auctionJID, translator);
         addAuctionEventListener(chatDisconnectorFor(translator));
     }
     public XMPPAuction(XMPPConnection conn, String id, LoggingXMPPFailureReporter reporter) {
@@ -27,7 +26,7 @@ public class XMPPAuction implements Auction {
         this.failureReporter = reporter;
     }
     private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
-        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce());
+        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce(),failureReporter);
     }
     private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) {
         return new AuctionEventListener() {
@@ -47,7 +46,8 @@ public class XMPPAuction implements Auction {
         return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 
-    private void addAuctionEventListener(AuctionEventListener listener) {
+    @Override
+    public void addAuctionEventListener(AuctionEventListener listener) {
         auctionEventListeners.addListener(listener);
     }
 
@@ -62,7 +62,7 @@ public class XMPPAuction implements Auction {
     private void sendMessage(final String message) {
         try {
             chat.sendMessage(message);
-        } catch (XMPPException e) {
+        } catch (XMPPException | SmackException.NotConnectedException e) {
             e.printStackTrace();
         }
     }

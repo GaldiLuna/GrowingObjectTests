@@ -1,6 +1,6 @@
-public class SniperPortfolio {
+public interface SniperPortfolio extends SniperCollector, PortfolioListener {
     // A interface PortfolioListener deve estender EventListener
-    public void addPortfolioListener(PortfolioListener listener) {
+    public default void addPortfolioListener(PortfolioListener listener) {
         // Lógica de adição de listener (não é necessária aqui para compilar)
     }
 }

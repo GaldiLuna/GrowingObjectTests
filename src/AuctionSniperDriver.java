@@ -5,8 +5,8 @@ import com.objogate.wl.swing.driver.JTableDriver;
 import com.objogate.wl.swing.driver.JTableHeaderDriver;
 
 import com.objogate.wl.swing.AWTEventQueueProber;
-//import com.objogate.wl.swing.GesturePerformer;
-import com.objogate.wl.gesture.*;
+import com.objogate.wl.swing.gesture.GesturePerformer;
+//import com.objogate.wl.gesture.*;
 
 import javax.swing.JTextField;
 import javax.swing.JButton;

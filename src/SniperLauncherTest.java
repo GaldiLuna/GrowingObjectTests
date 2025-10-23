@@ -14,10 +14,10 @@ public class SniperLauncherTest {
     private final Mockery context = new JUnit4Mockery();
     private final States auctionState = context.states("auction state").startsAs("not joined");
     private final AuctionHouse auctionHouse = context.mock(AuctionHouse.class);
-    private final SniperCollector sniperCollector = context.mock(SniperCollector.class);
+    private final SniperPortfolio portfolio = context.mock(SniperPortfolio.class);
     private final Auction auction = context.mock(Auction.class);
     private final SnipersTableModel snipersTableModel = context.mock(SnipersTableModel.class);
-    private final SniperLauncher launcher = new SniperLauncher(auctionHouse, sniperCollector, snipersTableModel);
+    private final SniperLauncher launcher = new SniperLauncher(auctionHouse, portfolio, snipersTableModel);
     private final String item = "item 123"; // Simplificação do item usado no teste.
     private Matcher<AuctionSniper> sniperForItem(final String itemId) {
         // Assume-se que a lógica do FeatureMatcher para verificar o itemId
@@ -34,7 +34,7 @@ public class SniperLauncherTest {
             will(returnValue(auction));
             oneOf(auction).addAuctionEventListener(with(sniperMatcher));
             when(auctionState.is("not joined"));
-            oneOf(sniperCollector).addSniper(with(sniperMatcher));
+            oneOf(portfolio).addSniper(with(sniperMatcher));
             when(auctionState.is("not joined"));
             oneOf(auction).join();
             then(auctionState.is("joined"));

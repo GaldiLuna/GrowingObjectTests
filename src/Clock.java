@@ -1,4 +1,7 @@
 public interface Clock {
-    java.util.Date now();
-    boolean dayHasChangedFrom(java.util.Date date);
+    Object now();
+    boolean dayHasChangedFrom(Object date);
+    void setNextDate(Object date);
+
+    void hasExpired();
 }

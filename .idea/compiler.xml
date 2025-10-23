@@ -12,4 +12,9 @@
       <module name="auction-sniper" target="1.8" />
     </bytecodeTargetLevel>
   </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="GrowingObject" options="--add-exports jdk.compiler/com.sun.tools.javac.jvm=ALL-UNNAMED --add-exports java.xml/com.sun.org.apache.xalan.internal.lib=ALL-UNNAMED" />
+    </option>
+  </component>
 </project>

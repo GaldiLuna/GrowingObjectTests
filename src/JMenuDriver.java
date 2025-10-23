@@ -1,6 +1,6 @@
 // This is the Windowlicker Swing library.
 
-package com.objogate.wl.swing.driver;
+import com.objogate.wl.swing.driver;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -47,6 +47,11 @@ public class JMenuDriver extends AbstractButtonDriver {
         return new Query() {
             public Boolean query(JMenu label) {
                 return label.isPopupMenuVisible();
+            }
+
+            @Override
+            public Object query(Object component) {
+                return query((JMenu)component);
             }
 
             public void describeTo(Description description) {

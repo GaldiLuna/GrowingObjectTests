@@ -43,7 +43,7 @@ public class AuctionMessageTranslatorTest {
     }
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceived() {
-        context.checking(new Expectations() {{ exactly(1).of(listener).currentPrice(192, 7); }});
+        context.checking(new Expectations() {{ exactly(1).of(listener).currentPrice(192, 7, PriceSource.FromOtherBidder); }});
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: Someone else;");
         translator.processMessage(UNUSED_CHAT, message);
@@ -51,7 +51,7 @@ public class AuctionMessageTranslatorTest {
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceivedFromOtherBidder() {
         context.checking(new Expectations() {{
-            exactly(1).of(listener).currentPrice(192, 7);
+            exactly(1).of(listener).currentPrice(192, 7, PriceSource.FromOtherBidder);
         }});
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 192; Increment: 7; Bidder: Someone else;");
@@ -60,7 +60,7 @@ public class AuctionMessageTranslatorTest {
     @Test
     public void notifiesBidDetailsWhenCurrentPriceMessageReceivedFromSniper() {
         context.checking(new Expectations() {{
-            exactly(1).of(listener).currentPrice(234, 5);
+            exactly(1).of(listener).currentPrice(234, 5, PriceSource.FromSniper);
         }});
         Message message = new Message();
         message.setBody("SOLVersion: 1.1; Event: PRICE; CurrentPrice: 234; Increment: 5; Bidder: " + SNIPER_ID + ";");

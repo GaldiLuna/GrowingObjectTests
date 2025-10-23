@@ -1,10 +1,10 @@
 public class SniperLauncher implements UserRequestListener {
     private final AuctionHouse auctionHouse;
-    private final SniperCollector collector;
+    private final SniperPortfolio portfolio;
     private final SnipersTableModel snipers;
-    public SniperLauncher(AuctionHouse auctionHouse, SniperCollector sniperCollector, SnipersTableModel snipers) {
+    public SniperLauncher(AuctionHouse auctionHouse, SniperPortfolio portfolio, SnipersTableModel snipers) {
         this.auctionHouse = auctionHouse;
-        this.collector = sniperCollector;
+        this.portfolio = portfolio;
         this.snipers = snipers;
     }
     @Override
@@ -12,7 +12,7 @@ public class SniperLauncher implements UserRequestListener {
         Auction auction = auctionHouse.auctionFor(item.identifier);
         AuctionSniper sniper = new AuctionSniper(item, auction, snipers);
         auction.addAuctionEventListener(sniper);
-        collector.addSniper(sniper);
+        portfolio.addSniper(sniper);
         auction.join();
     }
 }

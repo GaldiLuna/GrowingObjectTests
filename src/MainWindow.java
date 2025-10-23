@@ -29,7 +29,9 @@ public class MainWindow extends JFrame {
     public static final String STATUS_WON = "Won";
     public static final String STATUS_LOST = "Lost";
     public static final String NEW_ITEM_ID_NAME = "item id";
+    public static final String NEW_ITEM_STOP_PRICE_NAME = "item id";
     public static final String SNIPERS_TABLE_NAME = "snipers table";
+    public static final String JOIN_BUTTON_NAME = "button";
     private final SnipersTableModel snipers = new SnipersTableModel();
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
     private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
@@ -47,6 +49,11 @@ public class MainWindow extends JFrame {
         this.clock = new Clock() {
             @Override public Date now() { return new Date(); }
             @Override public boolean dayHasChangedFrom(Date date) { return false; }
+
+            @Override
+            public void hasExpired() {
+
+            }
         };
     }
 
