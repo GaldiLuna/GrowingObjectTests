@@ -24,10 +24,10 @@ import org.hamcrest.Matcher;
 @RunWith(JMock.class)
 public class MainWindowTest {
     private final Mockery context = new JUnit4Mockery();
-    private final SnipersTableModel tableModel = new SnipersTableModel();
-    private final MainWindow mainWindow = new MainWindow(tableModel);
-    private final AuctionSniperDriver driver = new AuctionSniperDriver(100);
     private final SniperPortfolio portfolio = context.mock(SniperPortfolio.class);
+    private final SnipersTableModel tableModel = new SnipersTableModel();
+    private final MainWindow mainWindow = new MainWindow(portfolio);
+    private final AuctionSniperDriver driver = new AuctionSniperDriver(100);
     private final Clock clock = context.mock(Clock.class, "clock");
     private final Clock sameDayChecker = context.mock(Clock.class, "sameDayChecker");
     private final Receiver receiver = context.mock(Receiver.class, "receiver");

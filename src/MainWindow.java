@@ -47,12 +47,17 @@ public class MainWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
         this.clock = new Clock() {
-            @Override public Date now() { return new Date(); }
-            @Override public boolean dayHasChangedFrom(Date date) { return false; }
-
+            @Override
+            public Date now() { return new Date(); }
+            @Override
+            public boolean dayHasChangedFrom(Object date) {
+                return false;
+            }
+            @Override
+            public void setNextDate(Object date) {
+            }
             @Override
             public void hasExpired() {
-
             }
         };
     }
@@ -115,9 +120,9 @@ public class MainWindow extends JFrame {
     }
 
     public boolean acceptRequest(Request request) {
-        final Date now = clock.now();
+        final Date now = (Date) clock.now();
         if (dateOfFirstRequest == null) {
-            dateOfFirstRequest = clock.now();
+            dateOfFirstRequest = (Date) clock.now();
         } else if (clock.dayHasChangedFrom(dateOfFirstRequest)) {
             return false;
         }

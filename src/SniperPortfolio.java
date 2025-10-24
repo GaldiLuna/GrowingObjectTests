@@ -1,3 +1,5 @@
+import java.util.List;
+
 public interface SniperPortfolio extends SniperCollector, PortfolioListener {
     // A interface PortfolioListener deve estender EventListener
     public default void addPortfolioListener(PortfolioListener listener) {

@@ -1,6 +1,10 @@
-// This is the Windowlicker Swing library.
+//import com.objogate.wl.swing.driver;
 
-import com.objogate.wl.swing.driver;
+import com.objogate.wl.swing.driver.AbstractButtonDriver;
+import com.objogate.wl.swing.driver.ComponentDriver;
+//import static com.objogate.wl.swing.driver.ComponentDriver.isShowingOnScreen;
+//import static com.objogate.wl.swing.driver.ComponentDriver.centerOfComponent;
+import com.objogate.wl.swing.driver.JMenuItemDriver;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -65,6 +69,7 @@ public class JMenuDriver extends AbstractButtonDriver {
         prober().check(buttonDriver.component());
         buttonDriver.isShowingOnScreen();
         buttonDriver.performGesture(
-                createVerticalThenHorizontalMouseMoveGesture(buttonDriver.centerOfComponent()), clickMouseButton(BUTTON1));
+                createVerticalThenHorizontalMouseMoveGesture(buttonDriver.centerOfComponent()),
+                clickMouseButton(BUTTON1));
     }
 }

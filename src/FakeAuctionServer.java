@@ -5,7 +5,12 @@ import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
+
+import java.io.IOException;
 import java.util.concurrent.TimeUnit; // Assumindo que você precisa disso para SingleMessageListener
+
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.SmackException.NotConnectedException;
 
 import org.hamcrest.Matcher;
 import static java.lang.String.format;
@@ -29,11 +34,11 @@ public class FakeAuctionServer {
 
     private final SingleMessageListener messageListener = new SingleMessageListener();
 
-    public void reportPrice(int price, int increment, String bidder) throws XMPPException {
+    public void reportPrice(int price, int increment, String bidder) throws XMPPException, NotConnectedException {
         currentChat.sendMessage(String.format("SOLVersion: 1.1; Event: PRICE; " + "CurrentPrice: %d; Increment: %d; Bidder: %s;", price, increment, bidder));
     }
 
-    public void startSellingItem() throws XMPPException {
+    public void startSellingItem() throws XMPPException, SmackException, IOException {
         connection.connect();
         connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE);
         ChatManager.getInstanceFor(connection).addChatListener(new ChatManagerListener() {
@@ -60,12 +65,18 @@ public class FakeAuctionServer {
         messageListener.receivesAMessage(messageMatcher);
         assertThat(currentChat.getParticipant(), equalTo(sniperId));
     }
-    public void announceClosed() throws XMPPException {
+    public void announceClosed() throws XMPPException, NotConnectedException {
         currentChat.sendMessage("SOLVersion: 1.1; Event: CLOSE;");
     }
     public void stop() {
-        connection.disconnect();
+        try {
+            connection.disconnect();
+        } catch (NotConnectedException e) {
+            // Ignorar em um stub de teste, pois o objetivo é parar.
+        }
     }
 
-    public void sendInvalidMessageContaining(String brokenMessage) {}
+    public void sendInvalidMessageContaining(String brokenMessage) throws XMPPException, NotConnectedException {
+        currentChat.sendMessage(brokenMessage);
+    }
 }

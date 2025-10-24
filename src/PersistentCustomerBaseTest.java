@@ -1,10 +1,8 @@
 import org.junit.Test;
 
-import org.junit.Before;
-import org.junit.Assert;
-import java.util.Date;
-import java.util.List;
-import java.util.Arrays;
+//import static CustomerTestHelpers.*;
+//import static CustomerTestHelpers.date;
+
 import org.hamcrest.Matcher;
 
 import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
@@ -15,43 +13,47 @@ import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInA
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import java.util.Date;
 
 public class PersistentCustomerBaseTest {
     final EntityManagerFactory factory = Persistence.createEntityManagerFactory("example");
     final EntityManager entityManager = factory.createEntityManager();
     private final JPATransactor transactor = new JPATransactor(entityManager);
     final PersistentCustomerBase customerBase = new PersistentCustomerBase(entityManager);
+    private void assertCustomersExpiringOn(final String date, final Matcher<Iterable<? extends Customer>> matcher) throws Exception {
+        transactor.perform(new UnitOfWork() {
+            public void work() throws Exception {
+                Date deadline = null; //linha sugerida pelo intelliji para resolver o deadline abaixo
+                assertThat(customerBase.customersWithExpiredCreditCardsAt(deadline), (Matcher)matcher);
+                // É necessário um cast no matcher se o assertThat não conseguir inferir
+            }
+        });
+    }
+
     @Test
     @SuppressWarnings("unchecked")
     public void findsCustomersWithCreditCardsThatAreAboutToExpire() throws Exception {
         final String deadline = "6 Jun 2009";
         addCustomers(
-                aCustomer().withName("Alice (Expired)")
-                        .withPaymentMethods(aCreditCard().withExpiryDate(date("1 Jan 2009"))),
-                aCustomer().withName("Bob (Expired)")
-                        .withPaymentMethods(aCreditCard().withExpiryDate(date("5 Jun 2009"))),
-                aCustomer().withName("Carol (Valid)")
-                        .withPaymentMethods(aCreditCard().withExpiryDate(date(deadline))),
-                aCustomer().withName("Dave (Valid)")
+                CustomerTestHelpers.aCustomer().withName("Alice (Expired)")
+                        .withPaymentMethods(CustomerTestHelpers.aCreditCard().withExpiryDate(date("1 Jan 2009"))),
+                CustomerTestHelpers.aCustomer().withName("Bob (Expired)")
+                        .withPaymentMethods(CustomerTestHelpers.aCreditCard().withExpiryDate(date("5 Jun 2009"))),
+                CustomerTestHelpers.aCustomer().withName("Carol (Valid)")
+                        .withPaymentMethods(CustomerTestHelpers.aCreditCard().withExpiryDate(date(deadline))),
+                CustomerTestHelpers.aCustomer().withName("Dave (Valid)")
                         .withPaymentMethods(CustomerTestHelpers.aCreditCard().withExpiryDate(date("7 Jun 2009")))
         );
         assertCustomersExpiringOn(date(deadline),
-                containsInAnyOrder(customerNamed("Alice (Expired)"),
-                        customerNamed("Bob (Expired)")));
+                containsInAnyOrder(CustomerTestHelpers.customerNamed("Alice (Expired)"),
+                        CustomerTestHelpers.customerNamed("Bob (Expired)")));
     }
-    private void addCustomers(final CustomerBuilder... customers) throws Exception {
+    private void addCustomers(final CustomerBuilder... customerBuilders) throws Exception {
         transactor.perform(new UnitOfWork() {
             public void work() throws Exception {
                 for (CustomerBuilder customer : customerBuilders) {
                     customerBase.addCustomer(customer.build());
                 }
-            }
-        });
-    }
-    private void assertCustomersExpiringOn(final Date date, final Matcher<Iterable<Customer>> matcher) throws Exception {
-        transactor.perform(new UnitOfWork() {
-            public void work() throws Exception {
-                assertThat(customerBase.customersWithExpiredCreditCardsAt(date), matcher);
             }
         });
     }

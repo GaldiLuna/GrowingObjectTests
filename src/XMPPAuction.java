@@ -1,5 +1,9 @@
 import org.jivesoftware.smack.*;
-//import org.jivesoftware.smack.chat.ChatManager;
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.SmackException;
+import org.jivesoftware.smack.ChatManager;
 
 import static java.lang.String.format;
 import java.lang.String;
@@ -26,7 +30,7 @@ public class XMPPAuction implements Auction {
         this.failureReporter = reporter;
     }
     private AuctionMessageTranslator translatorFor(XMPPConnection connection) {
-        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce(),failureReporter);
+        return new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce(), (XMPPFailureReporter) failureReporter);
     }
     private AuctionEventListener chatDisconnectorFor(final AuctionMessageTranslator translator) {
         return new AuctionEventListener() {

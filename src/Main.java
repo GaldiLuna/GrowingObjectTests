@@ -11,7 +11,7 @@ import org.jivesoftware.smack.SmackException;
 
 public class Main {
     private final SnipersTableModel snipers = new SnipersTableModel();
-    private final SniperPortfolio portfolio = new SniperPortfolio();
+    private final SniperPortfolio portfolio = new ConcreteSniperPortfolio();
     private MainWindow ui;
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
